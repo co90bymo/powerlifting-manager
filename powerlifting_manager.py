@@ -1,0 +1,1 @@
+print("Hello Powerlifting Manager!")
