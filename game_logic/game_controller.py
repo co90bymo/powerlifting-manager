@@ -26,9 +26,9 @@ class GameController:
         intermediate_competition = Competition(name="Intermediate Competition", weeks_due=8)
         self.competitions.append(intermediate_competition)
 
-        print("Week 1")
+        print("\nCurrent Week: 1")
         # Print athletes
-        print("Athletes in the game:")
+        print("\nAthletes in the game:")
         for athlete in self.athletes:
             print(f"- {athlete.name} (Base Strength: {athlete.base_strength} kg)")
             test_competition.enlist(athlete)
@@ -71,9 +71,14 @@ class GameController:
         # Print upcoming competition(s)
         print("\nUpcoming Competition(s):")
         for comp in self.competitions:
-            print(f"- {comp.name} ({comp.weeks_due} Weeks)")
+            if comp.weeks_due > 0:
+                if comp.weeks_due == 1:
+                    print(f"- {comp.name} ({comp.weeks_due} Week)")
+                else:
+                    print(f"- {comp.name} ({comp.weeks_due} Weeks)")
         
         input("\nPress Enter to progress a week (or Ctrl+C to quit)...")
         self.progress_week()
 
         
+
