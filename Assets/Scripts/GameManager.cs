@@ -4,6 +4,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState CurrentState { get; private set; }
+    public SaveManager SaveManager { get; private set; }
 
     private void Awake()
     {
@@ -13,6 +14,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             CurrentState = new GameState();
+            SaveManager = new SaveManager();
         }
         else
         {
@@ -23,5 +25,10 @@ public class GameManager : MonoBehaviour
     public void StartNewGame()
     {
         CurrentState = new GameState();
+    }
+    
+    public void LoadGame(int slot)
+    {
+        CurrentState = SaveManager.Load(slot);
     }
 }

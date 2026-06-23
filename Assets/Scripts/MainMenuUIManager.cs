@@ -2,6 +2,7 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class MainMenuUIManager : MonoBehaviour
 {
@@ -15,6 +16,9 @@ public class MainMenuUIManager : MonoBehaviour
 
     [SerializeField] private Transform athleteContainer;
     [SerializeField] private GameObject athleteButtonPrefab;
+
+    public int temp_slot;
+
 
 
 
@@ -30,17 +34,19 @@ public class MainMenuUIManager : MonoBehaviour
         mainMenuPanel.SetActive(true);
     }
 
-    public void OpenNewGame()
+    public void OpenNewGame(int slot)
     {
-        if (false)
+        if (GameManager.Instance.SaveManager.SaveExists(slot))
         {
-            UnityEngine.Debug.Log("to do: Load game file");
+            GameManager.Instance.LoadGame(slot);
+            SceneManager.LoadScene("The Gym");
         } 
         else
         {
             // new game state
             availableAthletes.Clear();
             selectedAthletes.Clear();
+            temp_slot = slot;
             //
             Athlete TestAthlete = new Athlete("test athlete");
             Athlete TestAthlete2 = new Athlete("test athlete2");
@@ -59,6 +65,7 @@ public class MainMenuUIManager : MonoBehaviour
         {
             GameManager.Instance.CurrentState.PlayerRoster.AddAthlete(a);
         }
+        GameManager.Instance.SaveManager.Save(temp_slot, GameManager.Instance.CurrentState);
     }
 
     public void CloseNewGame()
