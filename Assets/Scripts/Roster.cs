@@ -2,7 +2,30 @@ using System.Collections.Generic;
 
 public class Roster
 {
-    private List<Athlete> athletes = new();
+    public List<Athlete> Athletes { get; private set; }
 
-    public bool IsEmpty => athletes.Count == 0;
+    public Roster()
+    {
+        Athletes = new List<Athlete>();
+    }
+
+    public void AddAthlete(Athlete athlete)
+    {
+        Athletes.Add(athlete);
+    }
+
+    public bool IsEmpty()
+    {
+        return Athletes.Count == 0;
+    }
+
+    public void Clear()
+    {
+        Athletes.Clear();
+    }
+
+    public void AddRange(IEnumerable<Athlete> athletes)
+    {
+        Athletes.AddRange(athletes);
+    }
 }

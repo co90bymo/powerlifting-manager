@@ -3,8 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
-
-    public Roster Roster { get; private set; }
+    public GameState CurrentState { get; private set; }
 
     private void Awake()
     {
@@ -13,11 +12,16 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            Roster = new Roster();
+            CurrentState = new GameState();
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+
+    public void StartNewGame()
+    {
+        CurrentState = new GameState();
     }
 }

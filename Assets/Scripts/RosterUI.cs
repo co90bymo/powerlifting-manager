@@ -7,13 +7,18 @@ public class RosterUI : MonoBehaviour
 
     public void PrintRoster()
     {
-        if (GameManager.Instance.Roster.IsEmpty)
+        if (GameManager.Instance.CurrentState.PlayerRoster.IsEmpty())
         {
             rosterText.text = "Roster is empty.";
         }
         else
         {
-            rosterText.text = "Roster has athletes.";
+            rosterText.text = "";
+
+            foreach (Athlete athlete in GameManager.Instance.CurrentState.PlayerRoster.Athletes)
+            {
+                rosterText.text += athlete.Name + "\n";
+            }
         }
     }
 }
