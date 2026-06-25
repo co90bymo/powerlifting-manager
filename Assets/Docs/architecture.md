@@ -40,6 +40,7 @@ Advance Week
 
 - View roster
 - Advance Week (Button) → Advance Week Scene
+- (Schedule Button exists, it's the Date display button - Schedule class will be added later, so currently it's just displaying the current Date)
 
 ---
 
@@ -51,4 +52,4 @@ Advance Week
 
 ### Actions:
 
-- Done (Button) → Advance Week Scene
+- Done (Button) → Advance Week Scene to The Gym Scene (and AutoSave)

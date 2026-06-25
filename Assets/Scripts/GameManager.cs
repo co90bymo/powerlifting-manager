@@ -38,4 +38,10 @@ public class GameManager : MonoBehaviour
     {
         SaveManager.Save(slot, CurrentState);
     }
+
+    public void AdvanceWeek()
+    {
+        CurrentState.GameTime.ProgressTime();
+        SaveGame(CurrentState.SlotId);
+    }
 }
