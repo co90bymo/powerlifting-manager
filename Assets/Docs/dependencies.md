@@ -8,6 +8,7 @@
 
 Depends on:
 - RosterUI (to refresh roster display)
+- GameTime (via GameState)
 - UI panels (Gym Panel, Roster Panel)
 
 Used by:
@@ -102,6 +103,7 @@ Used for:
 ### GameState
 Depends on:
 - Roster
+- GameTime
 
 Used by:
 - MainMenuUIManager (via GameManager)
@@ -163,8 +165,28 @@ Used for:
 -  Toggle Selection when starting a new game
 
 --- 
+### GameTime
+Depends on:
+- /
 
+Used by:
+- GameState
+- UIManager
+- AdvanceWeekDoneButton (via GameState via GameManager)
 
+Used for:
+- Keeps track of game time in week/year
+
+---
+## AdvanceWeekDoneButton
+
+Depends on:
+- GameTime (via GameState via GameManager)
+
+Used by:
+
+Used for:
+- Progressing time 
 ## 2. Soring and Loading Flow
 
 ### Save Flow

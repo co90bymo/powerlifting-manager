@@ -5,6 +5,13 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject gymPanel;
     [SerializeField] private GameObject rosterPanel;
     [SerializeField] private RosterUI rosterUI; 
+    // Only need reference to the text
+    [SerializeField] private TMPro.TextMeshProUGUI dateText;
+
+    private void Start()
+    {
+        DisplayTime();
+    }
 
     public void OpenRoster()
     {
@@ -17,5 +24,11 @@ public class UIManager : MonoBehaviour
     {
         rosterPanel.SetActive(false);
         gymPanel.SetActive(true);
+    }
+
+    public void DisplayTime()
+    {
+        //change button tmp text
+        dateText.text = GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
     }
 }
