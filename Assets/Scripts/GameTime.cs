@@ -1,7 +1,7 @@
 public class GameTime
 {
-    public int Year { get; private set; }
-    public int Week { get; private set; }
+    public int Year { get; set; }
+    public int Week { get; set; }
 
     public GameTime()
     {

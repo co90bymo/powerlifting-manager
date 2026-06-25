@@ -122,6 +122,7 @@ Depends on:
 Used by:
 - SlotButtons 
 - MainMenuUIManager
+- AdvanceWeekDoneButton (Saving Game)
 
 Used for:
 - Instantiates important Game Objects
@@ -182,6 +183,7 @@ Used for:
 
 Depends on:
 - GameTime (via GameState via GameManager)
+- GameManager
 
 Used by:
 
@@ -201,6 +203,7 @@ File → SaveManager → GameState → GameManager → UI
 
 ### Where can player save a game?
 - Automatically when new game starts
+- Automatically after each week
 
 ---
 

@@ -13,7 +13,6 @@ public class GameManager : MonoBehaviour
             Instance = this;
             DontDestroyOnLoad(gameObject);
 
-            CurrentState = new GameState();
             SaveManager = new SaveManager();
         }
         else
@@ -22,13 +21,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void StartNewGame()
+    public void StartNewGame(int slot)
     {
         CurrentState = new GameState();
+        CurrentState.SlotId = slot;
     }
     
     public void LoadGame(int slot)
     {
         CurrentState = SaveManager.Load(slot);
+
+        UnityEngine.Debug.Log("Load Game" + CurrentState.GameTime.Week);
+    }
+
+    public void SaveGame(int slot)
+    {
+        SaveManager.Save(slot, CurrentState);
     }
 }

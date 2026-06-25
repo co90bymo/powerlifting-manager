@@ -36,6 +36,9 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void OpenNewGame(int slot)
     {
+        temp_slot = slot;
+        UnityEngine.Debug.Log(temp_slot);
+
         if (GameManager.Instance.SaveManager.SaveExists(slot))
         {
             GameManager.Instance.LoadGame(slot);
@@ -46,7 +49,6 @@ public class MainMenuUIManager : MonoBehaviour
             // new game state
             availableAthletes.Clear();
             selectedAthletes.Clear();
-            temp_slot = slot;
             //
             Athlete TestAthlete = new Athlete("test athlete");
             Athlete TestAthlete2 = new Athlete("test athlete2");
@@ -60,7 +62,7 @@ public class MainMenuUIManager : MonoBehaviour
 
     public void ConfirmAthletes()
     {
-        GameManager.Instance.StartNewGame();
+        GameManager.Instance.StartNewGame(temp_slot);
         foreach (Athlete a in selectedAthletes)
         {
             GameManager.Instance.CurrentState.PlayerRoster.AddAthlete(a);
