@@ -109,7 +109,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "architecture.md",
+                "file": "dependencies.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -119,7 +119,7 @@
                 "unlinkedCollapsed": true
               },
               "icon": "links-coming-in",
-              "title": "Backlinks for architecture"
+              "title": "Backlinks for dependencies"
             }
           },
           {
@@ -128,12 +128,12 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "architecture.md",
+                "file": "dependencies.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               },
               "icon": "links-going-out",
-              "title": "Outgoing links from architecture"
+              "title": "Outgoing links from dependencies"
             }
           },
           {
@@ -171,13 +171,13 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "architecture.md",
+                "file": "dependencies.md",
                 "followCursor": false,
                 "showSearch": false,
                 "searchQuery": ""
               },
               "icon": "lucide-list",
-              "title": "Outline of architecture"
+              "title": "Outline of dependencies"
             }
           }
         ]

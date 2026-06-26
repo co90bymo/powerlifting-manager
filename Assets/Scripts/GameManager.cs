@@ -39,9 +39,16 @@ public class GameManager : MonoBehaviour
         SaveManager.Save(slot, CurrentState);
     }
 
-    public void AdvanceWeek()
+    public void StartNextWeek()
     {
         CurrentState.GameTime.ProgressTime();
         SaveGame(CurrentState.SlotId);
+    }
+
+    // This function contains the core simulation step of the game after the end of every week
+    public void AdvanceWeek()
+    {
+        // Player Roster loops through all our athletes and calls Train() on them
+        CurrentState.PlayerRoster.TrainAthletes();
     }
 }

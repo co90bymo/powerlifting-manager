@@ -118,6 +118,7 @@ Used for:
 Depends on:
 - GameState 
 - SaveManager 
+- PlayerRoster  (via CurrentState)
 
 Used by:
 - SlotButtons 
@@ -173,7 +174,7 @@ Depends on:
 Used by:
 - GameState
 - UIManager
-- AdvanceWeekDoneButton (via GameState via GameManager)
+- GameManager
 
 Used for:
 - Keeps track of game time in week/year
@@ -182,13 +183,29 @@ Used for:
 ## AdvanceWeekDoneButton
 
 Depends on:
-- GameTime (via GameState via GameManager)
 - GameManager
 
 Used by:
+- 
 
 Used for:
 - Progressing time 
+- Autosaving
+---
+## AdvanceWeekButton
+
+Depends on
+- GameManager
+
+Used by:
+- 
+
+Used for:
+- Calls simulation step inside GameManager
+- Train Athletes in PlayerRoster
+
+--- 
+
 ## 2. Soring and Loading Flow
 
 ### Save Flow

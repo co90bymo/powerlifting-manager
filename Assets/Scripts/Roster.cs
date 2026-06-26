@@ -28,4 +28,12 @@ public class Roster
     {
         Athletes.AddRange(athletes);
     }
+
+    public void TrainAthletes()
+    {
+        foreach (Athlete athlete in Athletes)
+        {
+            athlete.Train();
+        }
+    }
 }
