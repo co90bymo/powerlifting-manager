@@ -48,8 +48,9 @@ Advance Week
 
 ### Panels / States:
 
--  None
+-  Week Summary Panel (Only pannel, so it also contains the "done button" for now)
 
 ### Actions:
 
+- Display the weekly progress
 - Done (Button) → Advance Week Scene to The Gym Scene (and AutoSave)

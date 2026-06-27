@@ -49,6 +49,7 @@ Responsibilities:
 ### Roster
 Depends on:
 - Athlete 
+- TrainingResult
 
 Used by:
 - GameState
@@ -119,11 +120,13 @@ Depends on:
 - GameState 
 - SaveManager 
 - PlayerRoster  (via CurrentState)
+- TrainingResult
 
 Used by:
 - SlotButtons 
 - MainMenuUIManager
 - AdvanceWeekDoneButton (Saving Game)
+- WeekSummaryUI
 
 Used for:
 - Instantiates important Game Objects
@@ -144,7 +147,7 @@ Used for:
 ---
 ### Athlete
 Depends on:
-- /
+- TrainingResult
 
 Used by:
 - Roster
@@ -205,6 +208,36 @@ Used for:
 - Train Athletes in PlayerRoster
 
 --- 
+## WeekSummaryUI
+
+Depends on
+- GameManager
+- TrainingResult
+
+Used by:
+- 
+
+Used for:
+- Populates the progress summary scroll view
+- Handles all other UI (currently only the advance button)
+
+--- 
+## TrainingResult
+
+Depends on
+- 
+
+Used by:
+- WeekSummaryUI
+- Athlete
+- GameManager
+- Roster
+
+Used for:
+- Provides structure to store weekly progress
+
+--- 
+
 
 ## 2. Soring and Loading Flow
 

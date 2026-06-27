@@ -15,10 +15,22 @@ public class Athlete
         Deadlift = 80;
     }
 
-    public void Train()
+    public TrainingResult Train()
     {
+        float beforeSquat = Squat;
+        float beforeBench = Bench;
+        float beforeDeadlift = Deadlift;
+
         Squat += 2.5f;
         Bench += 2.5f;
         Deadlift += 2.5f;
+
+        return new TrainingResult
+        {
+            Name = Name,
+            SquatGain = Squat - beforeSquat,
+            BenchGain = Bench - beforeBench,
+            DeadliftGain = Deadlift - beforeDeadlift
+        };
     }
 }

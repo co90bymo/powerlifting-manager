@@ -6,4 +6,5 @@ public class AdvanceWeekButton : MonoBehaviour
     {
         GameManager.Instance.AdvanceWeek();
     }
+    
 }

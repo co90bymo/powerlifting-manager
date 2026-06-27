@@ -1,10 +1,13 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
     public GameState CurrentState { get; private set; }
     public SaveManager SaveManager { get; private set; }
+    public List<TrainingResult> LastWeekResults { get; private set; }
+
 
     private void Awake()
     {
@@ -30,8 +33,6 @@ public class GameManager : MonoBehaviour
     public void LoadGame(int slot)
     {
         CurrentState = SaveManager.Load(slot);
-
-        UnityEngine.Debug.Log("Load Game" + CurrentState.GameTime.Week);
     }
 
     public void SaveGame(int slot)
@@ -45,10 +46,8 @@ public class GameManager : MonoBehaviour
         SaveGame(CurrentState.SlotId);
     }
 
-    // This function contains the core simulation step of the game after the end of every week
     public void AdvanceWeek()
     {
-        // Player Roster loops through all our athletes and calls Train() on them
-        CurrentState.PlayerRoster.TrainAthletes();
+        LastWeekResults = CurrentState.PlayerRoster.TrainAthletes();
     }
 }

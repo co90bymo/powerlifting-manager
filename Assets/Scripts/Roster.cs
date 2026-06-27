@@ -29,11 +29,16 @@ public class Roster
         Athletes.AddRange(athletes);
     }
 
-    public void TrainAthletes()
+
+    public List<TrainingResult> TrainAthletes()
     {
+        List<TrainingResult> results = new List<TrainingResult>();
+
         foreach (Athlete athlete in Athletes)
         {
-            athlete.Train();
+            results.Add(athlete.Train());
         }
+
+        return results;
     }
 }
