@@ -178,6 +178,7 @@ Used by:
 - GameState
 - UIManager
 - GameManager
+- WeekSummaryUI
 
 Used for:
 - Keeps track of game time in week/year
@@ -213,6 +214,7 @@ Used for:
 Depends on
 - GameManager
 - TrainingResult
+- GameTime (via GameState via GameManager)
 
 Used by:
 - 
