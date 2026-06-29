@@ -76,9 +76,11 @@ Used for:
 Depends on:
 - Roster Text (TMP - not a self reference!)  
 - PlayerRoster (via GameManager) 
+- AthleteRowUI
 
 Used by:
 - UIManager
+- RosterFilterUI
 
 Used for:
 - Displays Roster in Roster Text 
@@ -153,6 +155,7 @@ Used by:
 - Roster
 - MainMenuUIManager
 - AthleteButton
+- AthleteRowUI
 
 Used for:
 -  Class to model Athletes
@@ -226,7 +229,7 @@ Used for:
 --- 
 ## TrainingResult
 
-Depends on
+Depends on:
 - 
 
 Used by:
@@ -239,7 +242,30 @@ Used for:
 - Provides structure to store weekly progress
 
 --- 
+## AthleteRowUI
 
+Depends on:
+- Athlete
+
+Used by:
+- RosterUI
+
+Used for:
+- Displaying a row for an athlete in the RosterUI of The Gym Scene
+
+---
+## RosterFilterUI
+
+Depends on:
+- RosterUI
+
+Used by:
+- /
+
+Used for:
+- Filter columns in RosterUI of "The Gym" Scene
+
+--- 
 
 ## 2. Soring and Loading Flow
 
