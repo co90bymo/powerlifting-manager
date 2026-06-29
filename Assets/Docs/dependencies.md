@@ -107,11 +107,13 @@ Used for:
 Depends on:
 - Roster
 - GameTime
+- Competition
 
 Used by:
 - MainMenuUIManager (via GameManager)
 - SaveManager
 - GameManager
+- NotificationPanelUI
 
 Used for:
 - Storing the games state
@@ -218,6 +220,7 @@ Depends on
 - GameManager
 - TrainingResult
 - GameTime (via GameState via GameManager)
+- Competition
 
 Used by:
 - 
@@ -266,6 +269,45 @@ Used for:
 - Filter columns in RosterUI of "The Gym" Scene
 
 --- 
+## Competition
+
+Depends on:
+- /
+
+Used by:
+- GameState
+- WeekSummaryUI
+- NotificationPanelUI
+
+Used for:
+- Class to model competition
+
+---
+## CompetitionPanelUI
+
+Depends on:
+- /
+
+Used by:
+- /
+
+Used for:
+- Displays Competition Event
+
+---
+## NotificationPanelUI
+
+Depends on:
+- Competition
+- CurrentState (via GameManager)
+
+Used by:
+- /
+
+Used for:
+- DIsplays initial scene to create test competition
+
+---
 
 ## 2. Soring and Loading Flow
 
