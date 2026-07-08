@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 
 public class RosterUI : MonoBehaviour
@@ -26,18 +24,32 @@ public class RosterUI : MonoBehaviour
 
     public void Refresh()
     {
-        // Clear old rows
+        // Clear old rows but keep the header
         foreach (Transform child in contentParent)
         {
-            if (child.name != "HeaderRow")
+            if (child.gameObject != headerRow.gameObject)
+            {
                 Destroy(child.gameObject);
+            }
         }
 
         var roster = GameManager.Instance.CurrentState.PlayerRoster;
 
         if (roster == null || roster.IsEmpty())
+        {
+            Debug.Log("Roster is empty.");
             return;
+        }
 
+        // Update header once
+        headerRow.SetColumnsVisible(
+            showName,
+            showSquat,
+            showBench,
+            showDeadlift
+        );
+
+        // Create athlete rows
         foreach (Athlete athlete in roster.Athletes)
         {
             GameObject row = Instantiate(athleteRowPrefab, contentParent);
@@ -46,9 +58,7 @@ public class RosterUI : MonoBehaviour
 
             rowUI.SetData(athlete);
 
-            rowUI.SetColumnsVisible(showName, showSquat, showBench, showDeadlift);
-
-            headerRow.SetColumnsVisible(
+            rowUI.SetColumnsVisible(
                 showName,
                 showSquat,
                 showBench,
@@ -57,30 +67,9 @@ public class RosterUI : MonoBehaviour
         }
     }
 
+    // Compatibility wrapper for existing code
     public void PrintRoster()
     {
-        // Clear old rows
-        foreach (Transform child in contentParent)
-        {
-            if(child.name != "HeaderRow")
-            Destroy(child.gameObject);
-        }
-
-        var roster = GameManager.Instance.CurrentState.PlayerRoster;
-
-        if (roster.IsEmpty())
-        {
-            Debug.Log("Roster is empty.");
-            return;
-        }
-
-        foreach (Athlete athlete in roster.Athletes)
-        {
-            GameObject row = Instantiate(athleteRowPrefab, contentParent);
-
-            AthleteRowUI rowUI = row.GetComponent<AthleteRowUI>();
-
-            rowUI.SetData(athlete);
-        }
+        Refresh();
     }
 }

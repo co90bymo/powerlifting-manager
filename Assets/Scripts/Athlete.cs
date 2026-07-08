@@ -33,4 +33,14 @@ public class Athlete
             DeadliftGain = Deadlift - beforeDeadlift
         };
     }
+
+    public float[] GetCompetitionAttempts(float maxLift)
+    {
+        return new float[]
+        {
+            maxLift * 0.85f,
+            maxLift * 0.925f,
+            maxLift
+        };
+    }
 }

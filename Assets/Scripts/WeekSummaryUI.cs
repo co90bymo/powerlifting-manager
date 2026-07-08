@@ -1,19 +1,30 @@
-using System.Diagnostics;
 using UnityEngine;
 using TMPro;
 
 public class WeekSummaryUI : MonoBehaviour
 {
+    [Header("Panels")]
     [SerializeField] private GameObject notificationPanel;
     [SerializeField] private GameObject advanceWeekPanel;
     [SerializeField] private GameObject competitionPanel;
+
+    [Header("Scroll View")]
     [SerializeField] private Transform contentParent;
     [SerializeField] private GameObject rowPrefab;
-    // Only need reference to the text. Not sure if we want to make it clickable later
-    [SerializeField] private TMPro.TextMeshProUGUI dateText;
+    [SerializeField] private ProgressRowUI headerRow;
+
+    [Header("UI")]
+    [SerializeField] private TMP_Text dateText;
+
+    private bool showName = true;
+    private bool showSquat = true;
+    private bool showBench = true;
+    private bool showDeadlift = true;
+    private bool showTotal = true;
 
     private void Start()
     {
+        UnityEngine.Debug.Log("TEST");
         CheckNotifications();
         PopulateProgressView();
         DisplayTime();
@@ -21,46 +32,71 @@ public class WeekSummaryUI : MonoBehaviour
 
     private void PopulateProgressView()
     {
-        // safety: clear old rows (important even now)
+        // Clear old rows but keep header
         foreach (Transform child in contentParent)
         {
-            Destroy(child.gameObject);
+            if (child.name != "Progress Header Row")
+                Destroy(child.gameObject);
         }
 
-        foreach (var r in GameManager.Instance.LastWeekResults)
+        foreach (TrainingResult result in GameManager.Instance.LastWeekResults)
         {
             GameObject row = Instantiate(rowPrefab, contentParent);
 
-            TMP_Text text = row.GetComponentInChildren<TMP_Text>();
+            ProgressRowUI rowUI = row.GetComponent<ProgressRowUI>();
 
-            text.text =
-                $"{r.Name} | Squat +{r.SquatGain} | Bench +{r.BenchGain} | Deadlift +{r.DeadliftGain}";
+            rowUI.SetData(result);
+
+            rowUI.SetColumnsVisible(
+                showName,
+                showSquat,
+                showBench,
+                showDeadlift,
+                showTotal
+            );
         }
+
+        // Keep header in sync
+        headerRow.SetColumnsVisible(
+            showName,
+            showSquat,
+            showBench,
+            showDeadlift,
+            showTotal
+        );
     }
 
-    public void DisplayTime()
-        {
-            //change button tmp text
-            dateText.text = GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
-        }
-
-    public void CheckNotifications()
+    private void DisplayTime()
     {
-        if (GameManager.Instance.CurrentState.GameTime.Year == 1 && GameManager.Instance.CurrentState.GameTime.Week == 1)
+        dateText.text =
+            GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
+    }
+
+    private void CheckNotifications()
+    {
+        // Default state
+        notificationPanel.SetActive(false);
+        advanceWeekPanel.SetActive(true);
+        competitionPanel.SetActive(false);
+
+        // Test notification
+        if (GameManager.Instance.CurrentState.GameTime.Year == 1 &&
+            GameManager.Instance.CurrentState.GameTime.Week == 1)
         {
             notificationPanel.SetActive(true);
             advanceWeekPanel.SetActive(false);
-            competitionPanel.SetActive(false);
+            return;
         }
 
-        foreach (var competition in GameManager.Instance.CurrentState.Competitions)
+        // Competition today?
+        foreach (Competition competition in GameManager.Instance.CurrentState.Competitions)
         {
             if (competition.Year == GameManager.Instance.CurrentState.GameTime.Year &&
                 competition.Week == GameManager.Instance.CurrentState.GameTime.Week)
             {
                 competitionPanel.SetActive(true);
                 advanceWeekPanel.SetActive(false);
-                notificationPanel.SetActive(false);
+                return;
             }
         }
     }

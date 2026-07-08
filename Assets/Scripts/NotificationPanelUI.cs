@@ -16,7 +16,7 @@ public class NotificationPanelUI : MonoBehaviour
         Competition testCompetition = new Competition
         {
             Year = 1,
-            Week = 4
+            Week = 2
         };
         GameManager.Instance.CurrentState.Competitions.Add(testCompetition);
 

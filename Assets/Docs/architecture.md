@@ -48,9 +48,52 @@ Advance Week
 
 ### Panels / States:
 
--  Week Summary Panel (Only pannel, so it also contains the "done button" for now)
+- Week Summary Panel (Only pannel, so it also contains the "done button" for now)
+- Notification Panel (Only in Week 1)
+- Competition Panel (Only when there is competition
+
+ Notification/ Competition -> Week Summary Panel -> The Gym Scene 
 
 ### Actions:
 
 - Display the weekly progress
+- Display Competitions
 - Done (Button) → Advance Week Scene to The Gym Scene (and AutoSave)
+
+
+
+---
+
+## 5. Soring and Loading Flow
+
+### Save Flow
+UI → GameManager → GameState → SaveManager → File
+
+---
+
+### Load Flow
+File → SaveManager → GameState → GameManager → UI
+
+---
+
+### Where can player save a game?
+- Automatically when new game starts
+- Automatically after each week
+
+---
+
+## 6. Risk Areas 
+
+- UI modifying GameState directly 
+- Multiple systems writing to GameState 
+- SaveManager containing game logic 
+- GameState becoming too large (future risk) 
+
+---
+
+## 7. Rules
+
+- GameManager is the only entry point for state changes
+- GameState is the single source of truth
+- UI never stores permanent data
+- SaveManager only reads/writes data, never modifies gameplay
