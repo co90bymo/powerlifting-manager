@@ -96,4 +96,43 @@ public class Athlete
             maxLift
         };
     }
+
+    public WeightClass GetWeightClass()
+    {
+        if (Weight <= 52)
+            return WeightClass.U52;
+
+        if (Weight <= 56)
+            return WeightClass.U56;
+
+        if (Weight <= 60)
+            return WeightClass.U60;
+
+        if (Weight <= 67.5f)
+            return WeightClass.U67_5;
+
+        if (Weight <= 75)
+            return WeightClass.U75;
+
+        if (Weight <= 82.5f)
+            return WeightClass.U82_5;
+
+        if (Weight <= 90)
+            return WeightClass.U90;
+
+        if (Weight <= 100)
+            return WeightClass.U100;
+
+        if (Weight <= 110)
+            return WeightClass.U110;
+
+        if (Weight <= 125)
+            return WeightClass.U125;
+
+        if (Weight <= 140)
+            return WeightClass.U140;
+
+        return WeightClass.SHW;
+    }
+    
 }
