@@ -32,6 +32,8 @@ Advance Week
 
 ### Panels / States:
 
+- Training Panel
+	↕
 - Gym Panel (default gameplay view)
 	↕
 - Roster Panel 
@@ -39,6 +41,7 @@ Advance Week
 ### Actions:
 
 - View roster
+- Training (Button) -> Assign players to Training Groups
 - Advance Week (Button) → Advance Week Scene (This will trigger the simulation step, the summary of that will be displayed inside the Advance Week Scene)
 - (Schedule Button exists, it's the Date display button - Schedule class will be added later, so currently it's just displaying the current Date)
 
@@ -50,7 +53,7 @@ Advance Week
 
 - Week Summary Panel (Only pannel, so it also contains the "done button" for now)
 - Notification Panel (Only in Week 1)
-- Competition Panel (Only when there is competition
+- Competition Panel (Only when there is competition)
 
  Notification/ Competition -> Week Summary Panel -> The Gym Scene 
 
@@ -64,7 +67,7 @@ Advance Week
 
 ---
 
-## 5. Soring and Loading Flow
+## 5. Storing and Loading Flow
 
 ### Save Flow
 UI → GameManager → GameState → SaveManager → File

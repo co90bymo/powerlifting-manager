@@ -1,11 +1,11 @@
 using UnityEngine;
 using TMPro;
-using System.Runtime.CompilerServices;
 
 public class ProgressRowUI : MonoBehaviour 
 {
     [Header("Texts")]
     [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text fatigueText;
     [SerializeField] private TMP_Text squatText;
     [SerializeField] private TMP_Text benchText;
     [SerializeField] private TMP_Text deadliftText;
@@ -17,21 +17,46 @@ public class ProgressRowUI : MonoBehaviour
     // Called when row is created
     public void SetData(TrainingResult result)
     {
-        if (gameObject.name == "HeaderRow")
+        if (gameObject.name == "Progress Row Header")
             return;
 
         nameText.text = result.Name;
-        squatText.text = $"+{result.SquatGain} kg";
-        benchText.text = $"+{result.BenchGain} kg";
-        deadliftText.text = $"+{result.DeadliftGain} kg";
+        fatigueText.text = FormatNumber(result.FatigueChange);
+
+        squatText.text = FormatChange(result.SquatGain);
+        benchText.text = FormatChange(result.BenchGain);
+        deadliftText.text = FormatChange(result.DeadliftGain);
 
         float total =
             result.SquatGain +
             result.BenchGain +
             result.DeadliftGain;
 
-        totalText.text = $"+{total} kg";
+        totalText.text = FormatChange(total);
     }
+
+
+    private string FormatChange(float value)
+    {
+        return value switch
+        {
+            > 0 => $"+{value}kg",
+            < 0 => $"{value}kg",
+            _ => "0kg"
+        };
+    }
+
+
+    private string FormatNumber(int value)
+    {
+        return value switch
+        {
+            > 0 => $"+{value}",
+            < 0 => $"{value}",
+            _ => "0"
+        };
+    }
+
 
     // Called by filter system
     public void SetColumnsVisible(bool showName, bool showSquat, bool showBench, bool showDeadlift, bool showTotal)

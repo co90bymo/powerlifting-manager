@@ -5,6 +5,9 @@ public class RosterFilterUI : MonoBehaviour
 {
     [Header("Toggles")]
     [SerializeField] private Toggle nameToggle;
+    [SerializeField] private Toggle ageToggle;
+    [SerializeField] private Toggle weightToggle;
+    [SerializeField] private Toggle fatigueToggle;
     [SerializeField] private Toggle squatToggle;
     [SerializeField] private Toggle benchToggle;
     [SerializeField] private Toggle deadliftToggle;
@@ -16,6 +19,9 @@ public class RosterFilterUI : MonoBehaviour
     {
         // Hook toggle events
         nameToggle.onValueChanged.AddListener(OnFilterChanged);
+        ageToggle.onValueChanged.AddListener(OnFilterChanged);
+        weightToggle.onValueChanged.AddListener(OnFilterChanged);
+        fatigueToggle.onValueChanged.AddListener(OnFilterChanged);
         squatToggle.onValueChanged.AddListener(OnFilterChanged);
         benchToggle.onValueChanged.AddListener(OnFilterChanged);
         deadliftToggle.onValueChanged.AddListener(OnFilterChanged);
@@ -33,6 +39,9 @@ public class RosterFilterUI : MonoBehaviour
     {
         rosterUI.SetFilter(
             nameToggle.isOn,
+            ageToggle.isOn,
+            weightToggle.isOn,
+            fatigueToggle.isOn,
             squatToggle.isOn,
             benchToggle.isOn,
             deadliftToggle.isOn

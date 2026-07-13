@@ -4,7 +4,9 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private GameObject gymPanel;
     [SerializeField] private GameObject rosterPanel;
+    [SerializeField] private GameObject trainingPanel; 
     [SerializeField] private RosterUI rosterUI; 
+    [SerializeField] private TrainingBoard trainingBoard; 
     // Only need reference to the text
     [SerializeField] private TMPro.TextMeshProUGUI dateText;
 
@@ -25,6 +27,20 @@ public class UIManager : MonoBehaviour
         rosterPanel.SetActive(false);
         gymPanel.SetActive(true);
     }
+
+    public void OpenTrainingMenu()
+    {
+        gymPanel.SetActive(false);
+        trainingPanel.SetActive(true);
+        trainingBoard.Refresh();
+    }
+
+    public void CloseTrainingMenu()
+    {
+        trainingPanel.SetActive(false);
+        gymPanel.SetActive(true);
+    }
+
 
     public void DisplayTime()
     {

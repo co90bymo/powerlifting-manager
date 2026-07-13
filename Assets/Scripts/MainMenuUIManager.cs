@@ -50,10 +50,30 @@ public class MainMenuUIManager : MonoBehaviour
             availableAthletes.Clear();
             selectedAthletes.Clear();
             //
-            Athlete TestAthlete = new Athlete("test athlete");
-            Athlete TestAthlete2 = new Athlete("test athlete2");
+            Athlete TestAthlete = new Athlete("Sam Squatter");
+            Athlete TestAthlete2 = new Athlete("Dan Deadlifter");
+            Athlete TestAthlete3 = new Athlete("Bob Bencher");
+            TestAthlete.Age = 18;
+            TestAthlete.Weight = 90;
+            TestAthlete.Squat = 140;
+            TestAthlete.Bench = 140;
+            TestAthlete.Deadlift = 140;
+
+            TestAthlete2.Age = 21;
+            TestAthlete2.Weight = 105;
+            TestAthlete2.Squat = 100;
+            TestAthlete2.Bench = 80;
+            TestAthlete2.Deadlift = 180;
+
+            TestAthlete3.Age = 27;
+            TestAthlete3.Weight = 130;
+            TestAthlete3.Squat = 140;
+            TestAthlete3.Bench = 100;
+            TestAthlete3.Deadlift = 220;
+
             availableAthletes.Add(TestAthlete);
             availableAthletes.Add(TestAthlete2);
+            availableAthletes.Add(TestAthlete3);
             PopulateAthletes();
             slotSelectionPanel.SetActive(false);
             newGamePanel.SetActive(true);

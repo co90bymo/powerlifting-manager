@@ -8,13 +8,19 @@ public class RosterUI : MonoBehaviour
     [SerializeField] private AthleteRowUI headerRow;
 
     private bool showName = true;
+    private bool showAge = true;
+    private bool showWeight = true;
+    private bool showFatigue = true;
     private bool showSquat = true;
     private bool showBench = true;
     private bool showDeadlift = true;
 
-    public void SetFilter(bool name, bool squat, bool bench, bool deadlift)
+    public void SetFilter(bool name, bool age, bool weight, bool fatigue, bool squat, bool bench, bool deadlift)
     {
         showName = name;
+        showAge = age;
+        showWeight = weight;
+        showFatigue = fatigue;
         showSquat = squat;
         showBench = bench;
         showDeadlift = deadlift;
@@ -44,6 +50,9 @@ public class RosterUI : MonoBehaviour
         // Update header once
         headerRow.SetColumnsVisible(
             showName,
+            showAge,
+            showWeight,
+            showFatigue,
             showSquat,
             showBench,
             showDeadlift
@@ -60,6 +69,9 @@ public class RosterUI : MonoBehaviour
 
             rowUI.SetColumnsVisible(
                 showName,
+                showAge,
+                showWeight,
+                showFatigue,
                 showSquat,
                 showBench,
                 showDeadlift

@@ -24,7 +24,6 @@ public class WeekSummaryUI : MonoBehaviour
 
     private void Start()
     {
-        UnityEngine.Debug.Log("TEST");
         CheckNotifications();
         PopulateProgressView();
         DisplayTime();
@@ -35,7 +34,7 @@ public class WeekSummaryUI : MonoBehaviour
         // Clear old rows but keep header
         foreach (Transform child in contentParent)
         {
-            if (child.name != "Progress Header Row")
+            if (child.name != "Progress Row Header")
                 Destroy(child.gameObject);
         }
 
