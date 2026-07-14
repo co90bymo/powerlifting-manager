@@ -4,7 +4,7 @@
 
 Expand the core gameplay loop by introducing meaningful player decisions through training intensity, fatigue management, and a more realistic competition system based on weight classes.
 
-This iteration focuses on making the management aspect more engaging while laying the foundation for future gameplay systems.
+This iteration focuses on laying the foundation for future gameplay systems.
 
 ---
 

@@ -53,6 +53,10 @@ public class MainMenuUIManager : MonoBehaviour
             Athlete TestAthlete = new Athlete("Sam Squatter");
             Athlete TestAthlete2 = new Athlete("Dan Deadlifter");
             Athlete TestAthlete3 = new Athlete("Bob Bencher");
+            Athlete TestAthlete4 = new Athlete("Tom Franks");
+            Athlete TestAthlete5 = new Athlete("Mark Gebauer");
+            Athlete TestAthlete6 = new Athlete("Julian Oldman");
+
             TestAthlete.Age = 18;
             TestAthlete.Weight = 90;
             TestAthlete.Squat = 140;
@@ -71,9 +75,31 @@ public class MainMenuUIManager : MonoBehaviour
             TestAthlete3.Bench = 100;
             TestAthlete3.Deadlift = 220;
 
+            TestAthlete.Age = 19;
+            TestAthlete.Weight = 92;
+            TestAthlete.Squat = 120;
+            TestAthlete.Bench = 80;
+            TestAthlete.Deadlift = 145;
+
+            TestAthlete2.Age = 45;
+            TestAthlete2.Weight = 87;
+            TestAthlete2.Squat = 150;
+            TestAthlete2.Bench = 110;
+            TestAthlete2.Deadlift = 185;
+
+            TestAthlete3.Age = 22;
+            TestAthlete3.Weight = 101;
+            TestAthlete3.Squat = 155;
+            TestAthlete3.Bench = 105;
+            TestAthlete3.Deadlift = 200;
+
             availableAthletes.Add(TestAthlete);
             availableAthletes.Add(TestAthlete2);
             availableAthletes.Add(TestAthlete3);
+            availableAthletes.Add(TestAthlete4);
+            availableAthletes.Add(TestAthlete5);
+            availableAthletes.Add(TestAthlete6);
+
             PopulateAthletes();
             slotSelectionPanel.SetActive(false);
             newGamePanel.SetActive(true);
