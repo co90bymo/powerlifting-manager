@@ -66,11 +66,13 @@ public class TrainingBoard : MonoBehaviour
         ClearContent(heavyContent);
     }
 
-
     private void ClearContent(Transform content)
     {
         foreach (Transform child in content)
         {
+            if (child.name == "Header")
+                continue;
+
             Destroy(child.gameObject);
         }
     }

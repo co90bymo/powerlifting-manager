@@ -417,6 +417,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::AthleteCardUI
   nameText: {fileID: 3929042771461326758}
   fatigueText: {fileID: 4485324944602628585}
+  backgroundImage: {fileID: 2801738470673800162}
+  unassignedColor: {r: 0.6650944, g: 1, b: 0.95484686, a: 1}
+  lightColor: {r: 0.6, g: 0.85, b: 0.6, a: 1}
+  normalColor: {r: 0.95, g: 0.85, b: 0.45, a: 1}
+  heavyColor: {r: 0.95, g: 0.55, b: 0.55, a: 1}
 --- !u!1 &9112113302515178217
 GameObject:
   m_ObjectHideFlags: 0

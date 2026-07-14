@@ -24,6 +24,7 @@ public class TrainingGroupSlot : MonoBehaviour, IDropHandler
         if (athleteCard != null)
         {
             athleteCard.Athlete.TrainingGroup = trainingGroup;
+            athleteCard.RefreshColor();
 
             Debug.Log(
                 $"{athleteCard.Athlete.Name} assigned to {trainingGroup}"

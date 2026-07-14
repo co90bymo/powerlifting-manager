@@ -27,12 +27,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "architecture.md",
+                "file": "Iteration 2 (Done) - Introduce Player Choices.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "architecture"
+              "title": "Iteration 2 (Done) - Introduce Player Choices"
             }
           }
         ],
@@ -200,7 +200,8 @@
   },
   "active": "15cc24f3fc08d5c6",
   "lastOpenFiles": [
-    "Iteration 1 (Done) Notes.md",
+    "Iteration 1 (Done) - Create Main Game Loop.md",
+    "Iteration 2 (Done) - Introduce Player Choices.md",
     "architecture.md",
     "dependencies.md.meta"
   ]
