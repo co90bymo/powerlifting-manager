@@ -10,6 +10,7 @@ public class Athlete
     public float Weight { get; set; } = 83f;
     public int Fatigue { get; set; } = 0;
     public TrainingGroup TrainingGroup { get; set; } = TrainingGroup.Unassigned;
+    public AthleteOwner Owner;
     // Not needed now, this is to later keep track of order inside TrainignGroups - purely cosmetic
     public int TrainingOrder { get; set; } = 0;
 
@@ -79,12 +80,20 @@ public class Athlete
 
         return new TrainingResult
         {
-            Name = Name,
+            Athlete = this,
+
             SquatGain = Squat - beforeSquat,
             BenchGain = Bench - beforeBench,
             DeadliftGain = Deadlift - beforeDeadlift,
             FatigueChange = Fatigue - beforeFatigue
         };
+    }
+
+    public void TrainAIControlled()
+    {
+        Squat += 1.25f;
+        Bench += 1.25f;
+        Deadlift += 1.25f;
     }
 
     public float[] GetCompetitionAttempts(float maxLift)

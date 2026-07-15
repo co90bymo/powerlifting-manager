@@ -258,7 +258,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 0
   m_ChildAlignment: 0
-  m_Spacing: 0
+  m_Spacing: 1
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 1
@@ -299,6 +299,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ProgressRowUI
   nameText: {fileID: 6674441863523923387}
+  ageText: {fileID: 1478378394131739484}
+  weightText: {fileID: 4594805838557384223}
   fatigueText: {fileID: 1781423373712768470}
   squatText: {fileID: 8322474041526945619}
   benchText: {fileID: 7566208206871912229}

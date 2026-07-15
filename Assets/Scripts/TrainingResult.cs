@@ -1,6 +1,7 @@
 public struct TrainingResult
 {
-    public string Name;
+    public Athlete Athlete;
+
     public float SquatGain;
     public float BenchGain;
     public float DeadliftGain;

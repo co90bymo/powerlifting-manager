@@ -17,6 +17,8 @@ public class WeekSummaryUI : MonoBehaviour
     [SerializeField] private TMP_Text dateText;
 
     private bool showName = true;
+    private bool showAge = true;
+    private bool showWeight = true;
     private bool showSquat = true;
     private bool showBench = true;
     private bool showDeadlift = true;
@@ -49,15 +51,19 @@ public class WeekSummaryUI : MonoBehaviour
             rowUI.SetColumnsVisible(
                 showName,
                 showSquat,
+                showAge,
+                showWeight,
                 showBench,
                 showDeadlift,
                 showTotal
             );
         }
-
+   
         // Keep header in sync
         headerRow.SetColumnsVisible(
             showName,
+            showAge,
+            showWeight,
             showSquat,
             showBench,
             showDeadlift,

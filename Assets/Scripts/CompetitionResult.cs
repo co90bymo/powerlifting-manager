@@ -20,4 +20,10 @@ public class CompetitionResult
 
     // Placement across all weight classes
     public int OverallPlace;
+
+    public float WeightClassPrizeMoney;
+    public float OverallPrizeMoney;
+
+    public float PrizeMoney =>
+        WeightClassPrizeMoney + OverallPrizeMoney;
 }

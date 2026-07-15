@@ -8,16 +8,20 @@ public class CompetitionPanelUI : MonoBehaviour
     [SerializeField] private GameObject welcomeMessagePanel;
     [SerializeField] private GameObject advanceWeekPanel;
     [SerializeField] private GameObject competitionPanel;
-
+    [SerializeField] private GameObject summaryPanel;
 
 
     [Header("Results")]
     [SerializeField] private Transform contentParent;
     [SerializeField] private GameObject competitionRowPrefab;
     [SerializeField] private CompetitionRowUI headerRow;
+    [SerializeField] private TMPro.TMP_Text earnedPrizeMoneyText;
 
 
-    private List<CompetitionResult> results;
+
+    private List<CompetitionResult> totalResults;
+    private List<CompetitionResult> dotsResults;
+
 
     // True = show OverallPlace (DOTS ranking)
     // False = show Place (weight class ranking)
@@ -36,6 +40,7 @@ public class CompetitionPanelUI : MonoBehaviour
     {
         notificationPanel.SetActive(false);
         competitionPanel.SetActive(false);
+        summaryPanel.SetActive(true);
         advanceWeekPanel.SetActive(true);
     }
 
@@ -46,26 +51,49 @@ public class CompetitionPanelUI : MonoBehaviour
     }
 
 
+    public void OnClickConfirmResults()
+    {
+        summaryPanel.SetActive(true);
+    }
+
 
 
     private void RunCompetition()
     {
-        results =
+        var results =
             GameManager.Instance.CurrentState
                 .Competitions[0]
                 .RunCompetition();
 
 
-        // Default view = overall DOTS results
+        dotsResults = results.overallResults;
+        totalResults = results.totalResults;
+        earnedPrizeMoneyText.text = $"You earned {results.totalPrizeMoney:F2}$ from this competition";
+
+
         showOverallPlace = true;
-        PopulateResultsView();
+        PopulateResultsView(true);
     }
 
 
 
-    private void PopulateResultsView(System.Predicate<CompetitionResult> filter = null)
+    private void PopulateResultsView(bool overallRanking, System.Predicate<CompetitionResult> filter = null)
     {
         ClearResults();
+
+
+        List<CompetitionResult> results;
+
+
+        if (overallRanking)
+        {
+            results = dotsResults;
+        }
+        else
+        {
+            results = totalResults;
+        }
+
 
 
         foreach (CompetitionResult result in results)
@@ -117,7 +145,7 @@ public class CompetitionPanelUI : MonoBehaviour
     {
         showOverallPlace = true;
 
-        PopulateResultsView();
+        PopulateResultsView(true);
     }
 
 
@@ -127,6 +155,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U52
         );
     }
@@ -138,6 +167,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U56
         );
     }
@@ -149,6 +179,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U60
         );
     }
@@ -160,6 +191,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U67_5
         );
     }
@@ -171,6 +203,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U75
         );
     }
@@ -182,6 +215,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U82_5
         );
     }
@@ -193,6 +227,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U90
         );
     }
@@ -204,6 +239,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U100
         );
     }
@@ -215,6 +251,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U110
         );
     }
@@ -226,6 +263,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U125
         );
     }
@@ -237,6 +275,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.U140
         );
     }
@@ -248,6 +287,7 @@ public class CompetitionPanelUI : MonoBehaviour
         showOverallPlace = false;
 
         PopulateResultsView(
+            false,
             result => result.WeightClass == WeightClass.SHW
         );
     }

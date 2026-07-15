@@ -7,20 +7,37 @@ public class Competition
     public int Year;
     public int Week;
 
+    public float FirstPlacePrize = 500;
+    public float SecondPlacePrize = 250;
+    public float ThirdPlacePrize = 100;
+
+    // Obviously we need to set these later when we have different Competitions / Events
+    public string CompetitionName = "No Competition Name assigned";
+    public string Description = "No Competition info";
+
     public bool HasBeenRun;
 
 
-    public List<CompetitionResult> RunCompetition()
+    public (List<CompetitionResult> overallResults, List<CompetitionResult> totalResults, float totalPrizeMoney) RunCompetition()
     {
-        Debug.Log($"Running competition in Year {Year}, Week {Week}");
-
         List<CompetitionResult> allResults = new();
 
 
         // 1. Split athletes by weight class
         Dictionary<WeightClass, List<Athlete>> groups = new();
 
-        foreach (Athlete athlete in GameManager.Instance.CurrentState.PlayerRoster.Athletes)
+        List<Athlete> participants = new();
+
+        participants.AddRange(
+            GameManager.Instance.CurrentState.PlayerRoster.Athletes
+        );
+
+        participants.AddRange(
+            GameManager.Instance.CurrentState.WorldAthletes
+        );
+
+
+        foreach (Athlete athlete in participants)
         {
             WeightClass weightClass = athlete.GetWeightClass();
 
@@ -39,8 +56,6 @@ public class Competition
         {
             WeightClass weightClass = group.Key;
             List<Athlete> athletes = group.Value;
-
-            Debug.Log($"Running {weightClass} competition");
 
 
             List<CompetitionResult> classResults = new();
@@ -94,6 +109,10 @@ public class Competition
             }
 
 
+            // Assign weight class prize money
+            AssignWeightClassPrizeMoney(classResults);
+
+
             allResults.AddRange(classResults);
         }
 
@@ -112,53 +131,97 @@ public class Competition
         }
 
 
-
-        // 5. Print final competition report
-        Debug.Log("========== FINAL COMPETITION RESULTS ==========");
-
-
-        Debug.Log("----- OVERALL DOTS RANKING -----");
-
-        foreach (CompetitionResult result in overallResults)
-        {
-            Debug.Log(
-                $"{result.OverallPlace}. {result.Athlete.Name} | " +
-                $"{result.WeightClass} | " +
-                $"Total: {result.Total}kg | " +
-                $"DOTS: {result.Dots:F2}"
-            );
-        }
+        // Assign overall prize money
+        AssignOverallPrizeMoney(overallResults);
 
 
 
-        Debug.Log("----- RESULTS BY WEIGHT CLASS -----");
-
-        foreach (WeightClass weightClass in System.Enum.GetValues(typeof(WeightClass)))
-        {
-            Debug.Log($"--- {weightClass} ---");
-
-            foreach (CompetitionResult result in overallResults)
-            {
-                if (result.WeightClass == weightClass)
-                {
-                    Debug.Log(
-                        $"{result.Place}. {result.Athlete.Name} | " +
-                        $"Total: {result.Total}kg | " +
-                        $"DOTS: {result.Dots:F2}"
-                    );
-                }
-            }
-        }
+        // 5. Total ranking
+        List<CompetitionResult> totalResults = allResults
+            .OrderByDescending(x => x.Total)
+            .ToList();
 
 
-        Debug.Log("==============================================");
+
+        // Give player money and return value to display as text
+        float totalPrizeMoney = AwardPlayerPrizeMoney(overallResults);
 
 
 
         HasBeenRun = true;
 
 
-        return overallResults;
+        return (overallResults, totalResults, totalPrizeMoney);
+    }
+
+
+
+    private void AssignWeightClassPrizeMoney(List<CompetitionResult> results)
+    {
+        foreach (CompetitionResult result in results)
+        {
+            switch (result.Place)
+            {
+                case 1:
+                    result.WeightClassPrizeMoney = FirstPlacePrize;
+                    break;
+
+                case 2:
+                    result.WeightClassPrizeMoney = SecondPlacePrize;
+                    break;
+
+                case 3:
+                    result.WeightClassPrizeMoney = ThirdPlacePrize;
+                    break;
+
+                default:
+                    result.WeightClassPrizeMoney = 0;
+                    break;
+            }
+        }
+    }
+
+
+
+    private void AssignOverallPrizeMoney(List<CompetitionResult> results)
+    {
+        foreach (CompetitionResult result in results)
+        {
+            switch (result.OverallPlace)
+            {
+                case 1:
+                    result.OverallPrizeMoney = FirstPlacePrize;
+                    break;
+
+                case 2:
+                    result.OverallPrizeMoney = SecondPlacePrize;
+                    break;
+
+                case 3:
+                    result.OverallPrizeMoney = ThirdPlacePrize;
+                    break;
+
+                default:
+                    result.OverallPrizeMoney = 0;
+                    break;
+            }
+        }
+    }
+
+
+
+    private float AwardPlayerPrizeMoney(List<CompetitionResult> results)
+    {
+        float totalPrizeMoney = 0;
+        foreach (CompetitionResult result in results)
+        {
+            if (result.Athlete.Owner == AthleteOwner.Player)
+            {
+                GameManager.Instance.CurrentState.Money += result.PrizeMoney;
+                totalPrizeMoney += result.PrizeMoney;
+            }
+        }
+        return totalPrizeMoney;
     }
 
 
@@ -177,5 +240,17 @@ public class Competition
 
 
         return total * coefficient;
+    }
+
+
+
+    public int WeeksUntil()
+    {
+        GameTime time = GameManager.Instance.CurrentState.GameTime;
+
+        int currentWeek = time.Year * 52 + time.Week;
+        int competitionWeek = Year * 52 + Week;
+
+        return competitionWeek - currentWeek;
     }
 }

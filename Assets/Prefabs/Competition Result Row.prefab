@@ -846,6 +846,14 @@ MonoBehaviour:
   squatText: {fileID: 8822289447915070258}
   benchText: {fileID: 5454500836968821044}
   deadliftText: {fileID: 1904601300914508667}
+  rowBackground: {fileID: 6775444399536409121}
+  normalRowColor: {r: 1, g: 1, b: 1, a: 1}
+  topThreeRowColor: {r: 0.5411765, g: 0.5411765, b: 0.5411765, a: 1}
+  playerRowColor: {r: 0.3490566, g: 0.3490566, b: 0.3490566, a: 1}
+  normalNameColor: {r: 0, g: 0, b: 0, a: 1}
+  goldColor: {r: 1, g: 0.75, b: 0, a: 1}
+  silverColor: {r: 0.75, g: 0.75, b: 0.75, a: 1}
+  bronzeColor: {r: 0.8, g: 0.45, b: 0.2, a: 1}
 --- !u!1 &3748343348809217722
 GameObject:
   m_ObjectHideFlags: 0

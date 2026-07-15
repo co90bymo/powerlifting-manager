@@ -32,15 +32,17 @@ Advance Week
 
 ### Panels / States:
 
-- Training Panel
-	↕
+- Scheduler Panel - (Advance Button)
+		↕	               
 - Gym Panel (default gameplay view)
-	↕
-- Roster Panel 
+		↕	               ↕
+- Training Panel - Roster Panel 
+	
 
 ### Actions:
 
 - View roster
+- View schedule
 - Training (Button) -> Assign players to Training Groups
 - Advance Week (Button) → Advance Week Scene (This will trigger the simulation step, the summary of that will be displayed inside the Advance Week Scene)
 - (Schedule Button exists, it's the Date display button - Schedule class will be added later, so currently it's just displaying the current Date)

@@ -49,5 +49,16 @@ public class GameManager : MonoBehaviour
     public void AdvanceWeek()
     {
         LastWeekResults = CurrentState.PlayerRoster.TrainAthletes();
+
+        TrainWorldAthletes();
+        
+    }
+
+    private void TrainWorldAthletes()
+    {
+        foreach (Athlete athlete in CurrentState.WorldAthletes)
+        {
+            athlete.TrainAIControlled();
+        }
     }
 }

@@ -3,15 +3,21 @@ using TMPro;
 
 public class ProgressRowUI : MonoBehaviour 
 {
-    [Header("Texts")]
+    [Header("Athlete Info")]
     [SerializeField] private TMP_Text nameText;
+    [SerializeField] private TMP_Text ageText;
+    [SerializeField] private TMP_Text weightText;
+
+    [Header("Training Results")]
     [SerializeField] private TMP_Text fatigueText;
     [SerializeField] private TMP_Text squatText;
     [SerializeField] private TMP_Text benchText;
     [SerializeField] private TMP_Text deadliftText;
     [SerializeField] private TMP_Text totalText;
 
-    private CompetitionResult competitionResult;
+
+    private TrainingResult trainingResult;
+
 
 
     // Called when row is created
@@ -20,20 +26,48 @@ public class ProgressRowUI : MonoBehaviour
         if (gameObject.name == "Progress Row Header")
             return;
 
-        nameText.text = result.Name;
-        fatigueText.text = FormatNumber(result.FatigueChange);
 
-        squatText.text = FormatChange(result.SquatGain);
-        benchText.text = FormatChange(result.BenchGain);
-        deadliftText.text = FormatChange(result.DeadliftGain);
+        trainingResult = result;
+
+
+        nameText.text =
+            result.Athlete.Name;
+
+
+        ageText.text =
+            result.Athlete.Age.ToString();
+
+
+        weightText.text =
+            $"{result.Athlete.Weight}kg";
+
+
+        fatigueText.text =
+            FormatNumber(result.FatigueChange);
+
+
+        squatText.text =
+            FormatChange(result.SquatGain);
+
+
+        benchText.text =
+            FormatChange(result.BenchGain);
+
+
+        deadliftText.text =
+            FormatChange(result.DeadliftGain);
+
 
         float total =
             result.SquatGain +
             result.BenchGain +
             result.DeadliftGain;
 
-        totalText.text = FormatChange(total);
+
+        totalText.text =
+            FormatChange(total);
     }
+
 
 
     private string FormatChange(float value)
@@ -47,6 +81,7 @@ public class ProgressRowUI : MonoBehaviour
     }
 
 
+
     private string FormatNumber(int value)
     {
         return value switch
@@ -58,10 +93,21 @@ public class ProgressRowUI : MonoBehaviour
     }
 
 
+
     // Called by filter system
-    public void SetColumnsVisible(bool showName, bool showSquat, bool showBench, bool showDeadlift, bool showTotal)
+    public void SetColumnsVisible(
+        bool showName,
+        bool showAge,
+        bool showWeight,
+        bool showSquat,
+        bool showBench,
+        bool showDeadlift,
+        bool showTotal)
     {
         nameText.gameObject.SetActive(showName);
+        ageText.gameObject.SetActive(showAge);
+        weightText.gameObject.SetActive(showWeight);
+
         squatText.gameObject.SetActive(showSquat);
         benchText.gameObject.SetActive(showBench);
         deadliftText.gameObject.SetActive(showDeadlift);
