@@ -11,14 +11,19 @@ public class Competition
     public float SecondPlacePrize = 250;
     public float ThirdPlacePrize = 100;
 
-    // Obviously we need to set these later when we have different Competitions / Events
-    public string CompetitionName = "No Competition Name assigned";
-    public string Description = "No Competition info";
+    // Can be overridden by derived competitions
+    public virtual string CompetitionName =>
+        "Competition";
+
+    public virtual string Description =>
+        "No description.";
 
     public bool HasBeenRun;
 
 
-    public (List<CompetitionResult> overallResults, List<CompetitionResult> totalResults, float totalPrizeMoney) RunCompetition()
+    public (List<CompetitionResult> overallResults,
+            List<CompetitionResult> totalResults,
+            float totalPrizeMoney) RunCompetition()
     {
         List<CompetitionResult> allResults = new();
 
@@ -42,36 +47,34 @@ public class Competition
             WeightClass weightClass = athlete.GetWeightClass();
 
             if (!groups.ContainsKey(weightClass))
-            {
-                groups[weightClass] = new List<Athlete>();
-            }
+                groups[weightClass] = new();
 
             groups[weightClass].Add(athlete);
         }
 
 
 
-        // 2. Run competition for each weight class
+        // 2. Run every weight class
         foreach (var group in groups)
         {
-            WeightClass weightClass = group.Key;
-            List<Athlete> athletes = group.Value;
-
-
             List<CompetitionResult> classResults = new();
 
-
-            foreach (Athlete athlete in athletes)
+            foreach (Athlete athlete in group.Value)
             {
-                float[] squatAttempts = athlete.GetCompetitionAttempts(athlete.Squat);
-                float[] benchAttempts = athlete.GetCompetitionAttempts(athlete.Bench);
-                float[] deadliftAttempts = athlete.GetCompetitionAttempts(athlete.Deadlift);
+                float[] squatAttempts =
+                    athlete.GetCompetitionAttempts(athlete.Squat);
+
+                float[] benchAttempts =
+                    athlete.GetCompetitionAttempts(athlete.Bench);
+
+                float[] deadliftAttempts =
+                    athlete.GetCompetitionAttempts(athlete.Deadlift);
 
 
                 CompetitionResult result = new()
                 {
                     Athlete = athlete,
-                    WeightClass = weightClass,
+                    WeightClass = group.Key,
 
                     BestSquat = squatAttempts[2],
                     BestBench = benchAttempts[2],
@@ -85,67 +88,53 @@ public class Competition
                     result.BestDeadlift;
 
 
-                result.Dots = CalculateDots(
-                    athlete.Weight,
-                    result.Total
-                );
+                result.Dots =
+                    CalculateDots(
+                        athlete.Weight,
+                        result.Total
+                    );
 
 
                 classResults.Add(result);
             }
 
 
-
-            // 3. Sort this weight class by total
             classResults.Sort((a, b) =>
-                b.Total.CompareTo(a.Total)
-            );
+                b.Total.CompareTo(a.Total));
 
 
-            // Assign weight class placing
             for (int i = 0; i < classResults.Count; i++)
-            {
                 classResults[i].Place = i + 1;
-            }
 
 
-            // Assign weight class prize money
             AssignWeightClassPrizeMoney(classResults);
-
 
             allResults.AddRange(classResults);
         }
 
 
 
-        // 4. Overall DOTS ranking
-        List<CompetitionResult> overallResults = allResults
+        List<CompetitionResult> overallResults =
+            allResults
             .OrderByDescending(x => x.Dots)
             .ToList();
 
 
-        // Assign overall placing
         for (int i = 0; i < overallResults.Count; i++)
-        {
             overallResults[i].OverallPlace = i + 1;
-        }
 
 
-        // Assign overall prize money
         AssignOverallPrizeMoney(overallResults);
 
 
-
-        // 5. Total ranking
-        List<CompetitionResult> totalResults = allResults
+        List<CompetitionResult> totalResults =
+            allResults
             .OrderByDescending(x => x.Total)
             .ToList();
 
 
-
-        // Give player money and return value to display as text
-        float totalPrizeMoney = AwardPlayerPrizeMoney(overallResults);
-
+        float totalPrizeMoney =
+            AwardPlayerPrizeMoney(overallResults);
 
 
         HasBeenRun = true;
@@ -213,6 +202,7 @@ public class Competition
     private float AwardPlayerPrizeMoney(List<CompetitionResult> results)
     {
         float totalPrizeMoney = 0;
+
         foreach (CompetitionResult result in results)
         {
             if (result.Athlete.Owner == AthleteOwner.Player)
@@ -221,6 +211,7 @@ public class Competition
                 totalPrizeMoney += result.PrizeMoney;
             }
         }
+
         return totalPrizeMoney;
     }
 
@@ -238,7 +229,6 @@ public class Competition
                 - 307.75076f
             );
 
-
         return total * coefficient;
     }
 
@@ -246,10 +236,14 @@ public class Competition
 
     public int WeeksUntil()
     {
-        GameTime time = GameManager.Instance.CurrentState.GameTime;
+        GameTime time =
+            GameManager.Instance.CurrentState.GameTime;
 
-        int currentWeek = time.Year * 52 + time.Week;
-        int competitionWeek = Year * 52 + Week;
+        int currentWeek =
+            time.Year * 52 + time.Week;
+
+        int competitionWeek =
+            Year * 52 + Week;
 
         return competitionWeek - currentWeek;
     }

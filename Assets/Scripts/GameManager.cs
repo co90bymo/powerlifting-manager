@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     public GameState CurrentState { get; private set; }
     public SaveManager SaveManager { get; private set; }
     public List<TrainingResult> LastWeekResults { get; private set; }
+    private CompetitionScheduler CompetitionScheduler;
 
 
     private void Awake()
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             SaveManager = new SaveManager();
+            CompetitionScheduler = new CompetitionScheduler();
         }
         else
         {
@@ -42,6 +45,7 @@ public class GameManager : MonoBehaviour
 
     public void StartNextWeek()
     {
+        CompetitionScheduler.UpdateCompetitions();
         CurrentState.GameTime.ProgressTime();
         SaveGame(CurrentState.SlotId);
     }

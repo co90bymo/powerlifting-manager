@@ -13,12 +13,14 @@ public class NotificationPanelUI : MonoBehaviour
 
     public void OnClickConfirmButton()
     {
-        Competition testCompetition = new Competition
+        UnityEngine.Debug.Log("CREATE TEST COMPETIITON");
+        Competition testCompetition = new TestCompetition
         {
             Year = 1,
-            Week = 2
+            Week = 3
         };
-        GameManager.Instance.CurrentState.Competitions.Add(testCompetition);
+        GameManager.Instance.CurrentState.AddCompetition(testCompetition);
+
 
         notificationPanel.SetActive(false);
         advanceWeekPanel.SetActive(true);
