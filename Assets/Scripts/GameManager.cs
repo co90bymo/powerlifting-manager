@@ -48,6 +48,7 @@ public class GameManager : MonoBehaviour
         CompetitionScheduler.UpdateCompetitions();
         CurrentState.GameTime.ProgressTime();
         SaveGame(CurrentState.SlotId);
+        FindAnyObjectByType<UIManager>().RefreshUI();
     }
 
     public void AdvanceWeek()
@@ -55,7 +56,8 @@ public class GameManager : MonoBehaviour
         LastWeekResults = CurrentState.PlayerRoster.TrainAthletes();
 
         TrainWorldAthletes();
-        
+
+        FindAnyObjectByType<WeekSummaryUI>().RefreshWeekSummary();    
     }
 
     private void TrainWorldAthletes()

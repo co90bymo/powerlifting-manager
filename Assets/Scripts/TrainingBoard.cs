@@ -9,7 +9,10 @@ public class TrainingBoard : MonoBehaviour
     [SerializeField] private Transform heavyContent;
 
     [Header("Prefab")]
-    [SerializeField] private GameObject athleteCardPrefab;
+    [SerializeField] private GameObject athleteTrainingRowPrefab;
+
+    [SerializeField] private GameObject mainPanel;
+
 
 
     public void Refresh()
@@ -29,9 +32,9 @@ public class TrainingBoard : MonoBehaviour
         {
             Transform parent = GetParentForGroup(athlete.TrainingGroup);
 
-            GameObject card = Instantiate(athleteCardPrefab, parent);
+            GameObject row = Instantiate(athleteTrainingRowPrefab, parent);
 
-            card.GetComponent<AthleteCardUI>().SetData(athlete);
+            row.GetComponent<AthleteTrainingRowUI>().SetData(athlete, mainPanel);
         }
     }
 

@@ -1,7 +1,7 @@
 using UnityEngine;
 using TMPro;
 
-public class ProgressRowUI : MonoBehaviour 
+public class ProgressRowUI : AthleteRowBase
 {
     [Header("Athlete Info")]
     [SerializeField] private TMP_Text nameText;
@@ -21,7 +21,7 @@ public class ProgressRowUI : MonoBehaviour
 
 
     // Called when row is created
-    public void SetData(TrainingResult result)
+    public void SetData(TrainingResult result, GameObject mainPanel)
     {
         if (gameObject.name == "Progress Row Header")
             return;
@@ -66,6 +66,8 @@ public class ProgressRowUI : MonoBehaviour
 
         totalText.text =
             FormatChange(total);
+
+        SetupProfileButton(mainPanel, trainingResult.Athlete);
     }
 
 

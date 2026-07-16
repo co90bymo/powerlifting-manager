@@ -7,6 +7,8 @@ public class RosterUI : MonoBehaviour
     [SerializeField] private GameObject athleteRowPrefab;
     [SerializeField] private AthleteRowUI headerRow;
 
+    [SerializeField] private GameObject mainPanel;
+
     private bool showName = true;
     private bool showAge = true;
     private bool showWeight = true;
@@ -65,7 +67,7 @@ public class RosterUI : MonoBehaviour
 
             AthleteRowUI rowUI = row.GetComponent<AthleteRowUI>();
 
-            rowUI.SetData(athlete);
+            rowUI.SetData(athlete, mainPanel);
 
             rowUI.SetColumnsVisible(
                 showName,

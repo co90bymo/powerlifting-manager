@@ -1,4 +1,6 @@
 using UnityEngine;
+using System.Collections.Generic;
+
 public class Athlete
 {
     public string Name { get; private set; }
@@ -6,13 +8,28 @@ public class Athlete
     public float Squat { get; set; }
     public float Bench { get; set; }
     public float Deadlift { get; set; }
+
     public int Age { get; set; } = 18;
     public float Weight { get; set; } = 83f;
     public int Fatigue { get; set; } = 0;
+
     public TrainingGroup TrainingGroup { get; set; } = TrainingGroup.Unassigned;
     public AthleteOwner Owner;
-    // Not needed now, this is to later keep track of order inside TrainignGroups - purely cosmetic
+
+    // Not needed now, this is to later keep track of order inside TrainingGroups - purely cosmetic
     public int TrainingOrder { get; set; } = 0;
+
+    public List<AthleteCompetitionResult> CompetitionHistory { get; set; } = new();
+
+    // =========================
+    // Personal Bests (All Time)
+    // =========================
+
+    public float BestCompetitionSquat { get; set; } = 0;
+    public float BestCompetitionBench { get; set; } = 0;
+    public float BestCompetitionDeadlift { get; set; } = 0;
+    public float BestCompetitionTotal { get; set; } = 0;
+    public float BestCompetitionDots { get; set; } = 0;
 
     public Athlete(string name)
     {
@@ -25,6 +42,13 @@ public class Athlete
         Age = 18;
         Weight = 90;
         Fatigue = 0;
+
+        // Initialize PBs to zero
+        BestCompetitionSquat = 0;
+        BestCompetitionBench = 0;
+        BestCompetitionDeadlift = 0;
+        BestCompetitionTotal = 0;
+        BestCompetitionDots = 0;
     }
 
     public TrainingResult Train()
@@ -33,7 +57,6 @@ public class Athlete
         float beforeBench = Bench;
         float beforeDeadlift = Deadlift;
         int beforeFatigue = Fatigue;
-
 
         switch (TrainingGroup)
         {
@@ -44,13 +67,11 @@ public class Athlete
                 Fatigue -= 3;
                 break;
 
-
             case TrainingGroup.Light:
                 Squat += 1.25f;
                 Bench += 1.25f;
                 Deadlift += 1.25f;
                 break;
-
 
             case TrainingGroup.Normal:
                 if (Fatigue + 1 <= 10)
@@ -61,7 +82,6 @@ public class Athlete
                     Fatigue += 1;
                 }
                 break;
-
 
             case TrainingGroup.Heavy:
                 if (Fatigue + 3 <= 10)
@@ -74,9 +94,7 @@ public class Athlete
                 break;
         }
 
-
         Fatigue = Mathf.Clamp(Fatigue, 0, 10);
-
 
         return new TrainingResult
         {
@@ -143,5 +161,4 @@ public class Athlete
 
         return WeightClass.SHW;
     }
-    
 }

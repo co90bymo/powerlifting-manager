@@ -1,5 +1,6 @@
 using UnityEngine;
 using TMPro;
+using System.Reflection;
 
 public class WeekSummaryUI : MonoBehaviour
 {
@@ -7,6 +8,8 @@ public class WeekSummaryUI : MonoBehaviour
     [SerializeField] private GameObject notificationPanel;
     [SerializeField] private GameObject advanceWeekPanel;
     [SerializeField] private GameObject competitionPanel;
+    [SerializeField] private GameObject mainPanel;
+
 
     [Header("Scroll View")]
     [SerializeField] private Transform contentParent;
@@ -25,6 +28,11 @@ public class WeekSummaryUI : MonoBehaviour
     private bool showTotal = true;
 
     private void Start()
+    {
+        // RefreshWeekSummary();
+    }
+
+    public void RefreshWeekSummary()
     {
         CheckNotifications();
         PopulateProgressView();
@@ -46,7 +54,7 @@ public class WeekSummaryUI : MonoBehaviour
 
             ProgressRowUI rowUI = row.GetComponent<ProgressRowUI>();
 
-            rowUI.SetData(result);
+            rowUI.SetData(result, mainPanel);
 
             rowUI.SetColumnsVisible(
                 showName,
@@ -100,6 +108,7 @@ public class WeekSummaryUI : MonoBehaviour
                 competition.Week == GameManager.Instance.CurrentState.GameTime.Week)
             {
                 competitionPanel.SetActive(true);
+                competitionPanel.GetComponent<CompetitionPanelUI>().RunCompetition();
                 advanceWeekPanel.SetActive(false);
                 return;
             }

@@ -19,15 +19,15 @@ public class TrainingGroupSlot : MonoBehaviour, IDropHandler
         }
 
 
-        AthleteCardUI athleteCard = eventData.pointerDrag.GetComponent<AthleteCardUI>();
+        AthleteTrainingRowUI row = eventData.pointerDrag.GetComponent<AthleteTrainingRowUI>();
 
-        if (athleteCard != null)
+        if (row != null)
         {
-            athleteCard.Athlete.TrainingGroup = trainingGroup;
-            athleteCard.RefreshColor();
+            row.Athlete.TrainingGroup = trainingGroup;
+            row.RefreshColor();
 
             Debug.Log(
-                $"{athleteCard.Athlete.Name} assigned to {trainingGroup}"
+                $"{row.Athlete.Name} assigned to {trainingGroup}"
             );
         }
     }

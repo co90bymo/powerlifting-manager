@@ -2,7 +2,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class AthleteCardUI : MonoBehaviour
+public class AthleteTrainingRowUI : AthleteRowBase
 {
     [Header("Texts")]
     [SerializeField] private TMP_Text nameText;
@@ -21,7 +21,7 @@ public class AthleteCardUI : MonoBehaviour
 
     public Athlete Athlete => athlete;
 
-    public void SetData(Athlete athlete)
+    public void SetData(Athlete athlete, GameObject mainPanel)
     {
         this.athlete = athlete;
 
@@ -29,6 +29,8 @@ public class AthleteCardUI : MonoBehaviour
         fatigueText.text = athlete.Fatigue.ToString();
 
         RefreshColor();
+
+        SetupProfileButton(mainPanel, athlete);
     }
 
     public void RefreshColor()

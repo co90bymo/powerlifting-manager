@@ -2,7 +2,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class CompetitionRowUI : MonoBehaviour 
+public class CompetitionRowUI : AthleteRowBase
 {
     [Header("Basic Info")]
     [SerializeField] private TMP_Text placeText;
@@ -42,9 +42,12 @@ public class CompetitionRowUI : MonoBehaviour
 
 
     // Called when row is created
-    public void SetData(CompetitionResult competitionResult, bool showOverallPlace)
+    public void SetData(
+        CompetitionResult competitionResult,
+        bool showOverallPlace,
+        GameObject competitionRootPanel)
     {
-        // Store reference for future clicking/profile opening
+        // Store data
         this.competitionResult = competitionResult;
 
 
@@ -97,6 +100,10 @@ public class CompetitionRowUI : MonoBehaviour
             competitionResult,
             showOverallPlace
         );
+
+
+        // Shared athlete profile functionality
+        SetupProfileButton(competitionRootPanel, competitionResult.Athlete);
     }
 
 
@@ -104,8 +111,7 @@ public class CompetitionRowUI : MonoBehaviour
 
     private void ApplyAthleteFormatting(
         CompetitionResult result,
-        bool showOverallPlace
-    )
+        bool showOverallPlace)
     {
         // Reset formatting
         nameText.fontStyle = FontStyles.Normal;
@@ -162,19 +168,5 @@ public class CompetitionRowUI : MonoBehaviour
         {
             nameText.color = bronzeColor;
         }
-    }
-
-
-
-
-    // Later: clicking a row can open athlete profile
-    public void OnClickRow()
-    {
-        Debug.Log(
-            $"Clicked athlete: {competitionResult.Athlete.Name}"
-        );
-
-        // Future:
-        // Open Athlete Profile Panel
     }
 }

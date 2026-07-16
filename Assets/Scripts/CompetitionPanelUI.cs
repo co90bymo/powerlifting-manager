@@ -9,6 +9,8 @@ public class CompetitionPanelUI : MonoBehaviour
     [SerializeField] private GameObject advanceWeekPanel;
     [SerializeField] private GameObject competitionPanel;
     [SerializeField] private GameObject summaryPanel;
+    [SerializeField] private GameObject mainPanel;
+
 
 
     [Header("Results")]
@@ -31,7 +33,7 @@ public class CompetitionPanelUI : MonoBehaviour
 
     void Start()
     {
-        RunCompetition();
+        //RunCompetition();
     }
 
 
@@ -58,7 +60,7 @@ public class CompetitionPanelUI : MonoBehaviour
 
 
 
-    private void RunCompetition()
+    public void RunCompetition()
     {
         var results =
             GameManager.Instance.CurrentState
@@ -116,7 +118,8 @@ public class CompetitionPanelUI : MonoBehaviour
 
             rowUI.SetData(
                 result,
-                showOverallPlace
+                showOverallPlace,
+                mainPanel
             );
         }
     }

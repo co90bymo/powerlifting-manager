@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 
-public class AthleteRowUI : MonoBehaviour
+public class AthleteRowUI : AthleteRowBase
 {
     [Header("Texts")]
     [SerializeField] private TMP_Text nameText;
@@ -15,7 +15,7 @@ public class AthleteRowUI : MonoBehaviour
     private Athlete athlete;
 
     // Called when row is created
-    public void SetData(Athlete athlete)
+    public void SetData(Athlete athlete, GameObject competitionRootPanel)
     {
             // Header row should never display athlete data
         if (gameObject.name == "Header Row")
@@ -30,6 +30,8 @@ public class AthleteRowUI : MonoBehaviour
         squatText.text = $"{athlete.Squat}kg";
         benchText.text = $"{athlete.Bench}kg";
         deadliftText.text = $"{athlete.Deadlift}kg";
+
+        SetupProfileButton(competitionRootPanel, athlete);
     }
 
     // Called by filter system
@@ -50,4 +52,5 @@ public class AthleteRowUI : MonoBehaviour
         benchText.transform.parent.gameObject.SetActive(showBench);
         deadliftText.transform.parent.gameObject.SetActive(showDeadlift);
     }
+
 }

@@ -137,6 +137,8 @@ public class Competition
             AwardPlayerPrizeMoney(overallResults);
 
 
+        SaveAthleteCompetitionHistory(overallResults);
+
         HasBeenRun = true;
 
 
@@ -212,7 +214,8 @@ public class Competition
             }
         }
 
-        return totalPrizeMoney;
+
+        return totalPrizeMoney * 0.1f;
     }
 
 
@@ -246,5 +249,66 @@ public class Competition
             Year * 52 + Week;
 
         return competitionWeek - currentWeek;
+    }
+
+    private void SaveAthleteCompetitionHistory(List<CompetitionResult> results)
+    {
+        foreach (CompetitionResult result in results)
+        {
+            Athlete athlete = result.Athlete;
+
+
+            AthleteCompetitionResult history =
+                new AthleteCompetitionResult
+                {
+                    CompetitionName = CompetitionName,
+
+                    Year = Year,
+                    Week = Week,
+
+                    Age = athlete.Age,
+                    BodyWeight = athlete.Weight,
+
+
+                    OverallRank = result.OverallPlace,
+                    WeightClassRank = result.Place,
+
+
+                    Dots = result.Dots,
+
+                    Total = result.Total,
+
+                    Squat = result.BestSquat,
+                    Bench = result.BestBench,
+                    Deadlift = result.BestDeadlift,
+
+
+                    OverallPrizeMoney = result.OverallPrizeMoney,
+
+                    WeightClassPrizeMoney = result.WeightClassPrizeMoney,
+
+                    TotalPrizeMoney =
+                        result.OverallPrizeMoney +
+                        result.WeightClassPrizeMoney
+                };
+
+
+            athlete.CompetitionHistory.Add(history);
+
+            athlete.BestCompetitionSquat =
+                Mathf.Max(athlete.BestCompetitionSquat, result.BestSquat);
+
+            athlete.BestCompetitionBench =
+                Mathf.Max(athlete.BestCompetitionBench, result.BestBench);
+
+            athlete.BestCompetitionDeadlift =
+                Mathf.Max(athlete.BestCompetitionDeadlift, result.BestDeadlift);
+
+            athlete.BestCompetitionTotal =
+                Mathf.Max(athlete.BestCompetitionTotal, result.Total);
+
+            athlete.BestCompetitionDots =
+                Mathf.Max(athlete.BestCompetitionDots, result.Dots);
+        }
     }
 }

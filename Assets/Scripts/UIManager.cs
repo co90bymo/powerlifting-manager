@@ -2,20 +2,45 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    public static UIManager Instance { get; private set; }
+
     [SerializeField] private GameObject gymPanel;
     [SerializeField] private GameObject rosterPanel;
-    [SerializeField] private GameObject trainingPanel; 
+    [SerializeField] private GameObject trainingPanel;
     [SerializeField] private GameObject schedulePanel;
     [SerializeField] private GameObject financesPanel;
+    [SerializeField] private GameObject advanceWeekPanel;
+    [SerializeField] private GameObject playerProfilePanel;
 
-    [SerializeField] private RosterUI rosterUI; 
-    [SerializeField] private TrainingBoard trainingBoard; 
-    // Only need reference to the text
+    [SerializeField] private RosterUI rosterUI;
+    [SerializeField] private TrainingBoard trainingBoard;
+    [SerializeField] private AthleteProfileUI athleteProfileUI;
+
     [SerializeField] private TMPro.TextMeshProUGUI dateText;
     [SerializeField] private TMPro.TextMeshProUGUI financesText;
 
 
+    private GameObject previousPanel;
+    
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start()
+    {
+        RefreshUI();
+    }
+
+    public void RefreshUI()
     {
         DisplayTime();
         DisplayMoney();
@@ -25,7 +50,7 @@ public class UIManager : MonoBehaviour
     {
         gymPanel.SetActive(false);
         rosterPanel.SetActive(true);
-        rosterUI.PrintRoster(); 
+        rosterUI.PrintRoster();
     }
 
     public void CloseRoster()
@@ -46,7 +71,6 @@ public class UIManager : MonoBehaviour
         trainingPanel.SetActive(false);
         gymPanel.SetActive(true);
     }
-
 
     public void OpenSchedule()
     {
@@ -72,19 +96,46 @@ public class UIManager : MonoBehaviour
         gymPanel.SetActive(true);
     }
 
-
-
-
-    public void DisplayTime()
+    public void OpenAdvanceWeek()
     {
-        //change button tmp text
-        dateText.text = GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
+        gymPanel.SetActive(false);
+        advanceWeekPanel.SetActive(true);
+    }
+
+    public void CloseAdvanceWeek()
+    {
+        advanceWeekPanel.SetActive(false);
+        gymPanel.SetActive(true);
     }
 
 
+    public void OpenPlayerProfile(GameObject currentPanel, Athlete athlete)
+    {
+        previousPanel = currentPanel;
+        athleteProfileUI.SetData(athlete);
+        athleteProfileUI.Refresh();
+        currentPanel.SetActive(false);
+        playerProfilePanel.SetActive(true);
+    }
+
+
+    public void ClosePlayerProfile()
+    {
+        playerProfilePanel.SetActive(false);
+
+        if(previousPanel != null)
+        {
+            previousPanel.SetActive(true);
+        }
+    }
+
+    public void DisplayTime()
+    {
+        dateText.text = GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
+    }
+
     public void DisplayMoney()
     {
-        //change button tmp text
         financesText.text = $"{GameManager.Instance.CurrentState.Money:F0} $";
     }
 }
