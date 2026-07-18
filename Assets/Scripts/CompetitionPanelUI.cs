@@ -70,10 +70,28 @@ public class CompetitionPanelUI : MonoBehaviour
 
         dotsResults = results.overallResults;
         totalResults = results.totalResults;
-        earnedPrizeMoneyText.text = $"You earned {results.totalPrizeMoney:F2}$ from this competition";
+
+
+        float earnedPrizeMoney =
+            0f;
+
+
+        foreach (FinanceEntry entry in GameManager.Instance.FinanceManager.Entries)
+        {
+            if (entry.Type == FinanceType.Income &&
+                entry.EntryType == FinanceEntryType.PrizeMoney)
+            {
+                earnedPrizeMoney += entry.Amount;
+            }
+        }
+
+
+        earnedPrizeMoneyText.text =
+            $"You earned {earnedPrizeMoney:F2}$ from this competition";
 
 
         showOverallPlace = true;
+
         PopulateResultsView(true);
     }
 

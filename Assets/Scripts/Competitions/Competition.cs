@@ -10,8 +10,11 @@ public class Competition
     public float FirstPlacePrize = 500;
     public float SecondPlacePrize = 250;
     public float ThirdPlacePrize = 100;
+    public float EntryFee = 50f;
 
-    // Can be overridden by derived competitions
+    public List<Athlete> RegisteredAthletes { get; private set; } = new();
+
+
     public virtual string CompetitionName =>
         "Competition";
 
@@ -28,13 +31,12 @@ public class Competition
         List<CompetitionResult> allResults = new();
 
 
-        // 1. Split athletes by weight class
         Dictionary<WeightClass, List<Athlete>> groups = new();
 
         List<Athlete> participants = new();
 
         participants.AddRange(
-            GameManager.Instance.CurrentState.PlayerRoster.Athletes
+            RegisteredAthletes
         );
 
         participants.AddRange(
@@ -54,10 +56,10 @@ public class Competition
 
 
 
-        // 2. Run every weight class
         foreach (var group in groups)
         {
             List<CompetitionResult> classResults = new();
+
 
             foreach (Athlete athlete in group.Value)
             {
@@ -99,6 +101,7 @@ public class Competition
             }
 
 
+
             classResults.Sort((a, b) =>
                 b.Total.CompareTo(a.Total));
 
@@ -127,14 +130,16 @@ public class Competition
         AssignOverallPrizeMoney(overallResults);
 
 
+
         List<CompetitionResult> totalResults =
             allResults
             .OrderByDescending(x => x.Total)
             .ToList();
 
 
-        float totalPrizeMoney =
-            AwardPlayerPrizeMoney(overallResults);
+
+        AwardPlayerPrizeMoney(overallResults);
+
 
 
         SaveAthleteCompetitionHistory(overallResults);
@@ -142,7 +147,11 @@ public class Competition
         HasBeenRun = true;
 
 
-        return (overallResults, totalResults, totalPrizeMoney);
+        return (
+            overallResults,
+            totalResults,
+            0
+        );
     }
 
 
@@ -201,21 +210,25 @@ public class Competition
 
 
 
-    private float AwardPlayerPrizeMoney(List<CompetitionResult> results)
+    private void AwardPlayerPrizeMoney(List<CompetitionResult> results)
     {
-        float totalPrizeMoney = 0;
-
         foreach (CompetitionResult result in results)
         {
             if (result.Athlete.Owner == AthleteOwner.Player)
             {
-                GameManager.Instance.CurrentState.Money += result.PrizeMoney;
-                totalPrizeMoney += result.PrizeMoney;
+                float prizeMoney = result.PrizeMoney;
+
+
+                if (prizeMoney > 0)
+                {
+                    GameManager.Instance.FinanceManager.AddIncome(
+                        FinanceEntryType.PrizeMoney,
+                        prizeMoney,
+                        true
+                    );
+                }
             }
         }
-
-
-        return totalPrizeMoney * 0.1f;
     }
 
 
@@ -242,14 +255,19 @@ public class Competition
         GameTime time =
             GameManager.Instance.CurrentState.GameTime;
 
+
         int currentWeek =
             time.Year * 52 + time.Week;
+
 
         int competitionWeek =
             Year * 52 + Week;
 
+
         return competitionWeek - currentWeek;
     }
+
+
 
     private void SaveAthleteCompetitionHistory(List<CompetitionResult> results)
     {
@@ -269,10 +287,8 @@ public class Competition
                     Age = athlete.Age,
                     BodyWeight = athlete.Weight,
 
-
                     OverallRank = result.OverallPlace,
                     WeightClassRank = result.Place,
-
 
                     Dots = result.Dots,
 
@@ -281,7 +297,6 @@ public class Competition
                     Squat = result.BestSquat,
                     Bench = result.BestBench,
                     Deadlift = result.BestDeadlift,
-
 
                     OverallPrizeMoney = result.OverallPrizeMoney,
 
@@ -294,6 +309,7 @@ public class Competition
 
 
             athlete.CompetitionHistory.Add(history);
+
 
             athlete.BestCompetitionSquat =
                 Mathf.Max(athlete.BestCompetitionSquat, result.BestSquat);
@@ -310,5 +326,26 @@ public class Competition
             athlete.BestCompetitionDots =
                 Mathf.Max(athlete.BestCompetitionDots, result.Dots);
         }
+    }
+
+
+
+    public void ToggleAthleteRegistration(Athlete athlete)
+    {
+        if (RegisteredAthletes.Contains(athlete))
+        {
+            RegisteredAthletes.Remove(athlete);
+        }
+        else
+        {
+            RegisteredAthletes.Add(athlete);
+        }
+    }
+
+
+
+    public bool IsAthleteRegistered(Athlete athlete)
+    {
+        return RegisteredAthletes.Contains(athlete);
     }
 }

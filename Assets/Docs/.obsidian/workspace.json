@@ -41,12 +41,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "architecture.md",
+                "file": "Iteration 3 - Build the Competitive World (Done).md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "architecture"
+              "title": "Iteration 3 - Build the Competitive World (Done)"
             }
           }
         ],
@@ -214,13 +214,13 @@
   },
   "active": "85d45231225abb79",
   "lastOpenFiles": [
+    "architecture.md",
     "Iteration 3 - Build the Competitive World (Done).md",
     "Iteration 1 - Create Main Game Loop (Done).md",
     "Iteration 2 - Introduce Player Choices (Done).md",
     "Iteration 3 (Done) - Competitive World Introduction",
     "Iteration 1 (Done) - Create Main Game Loop.md.meta",
     "Iteration 2 (Done) - Introduce Player Choices.md.meta",
-    "architecture.md",
     "dependencies.md.meta"
   ]
 }

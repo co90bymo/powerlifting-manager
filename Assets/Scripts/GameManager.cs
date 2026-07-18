@@ -1,14 +1,17 @@
 using UnityEngine;
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance;
+
     public GameState CurrentState { get; private set; }
     public SaveManager SaveManager { get; private set; }
+    public FinanceManager FinanceManager { get; private set; }
+
     public List<TrainingResult> LastWeekResults { get; private set; }
-    private CompetitionScheduler CompetitionScheduler;
+
+    private CompetitionScheduler competitionScheduler;
 
 
     private void Awake()
@@ -19,7 +22,8 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
 
             SaveManager = new SaveManager();
-            CompetitionScheduler = new CompetitionScheduler();
+            competitionScheduler = new CompetitionScheduler();
+            FinanceManager = new FinanceManager();
         }
         else
         {
@@ -27,38 +31,112 @@ public class GameManager : MonoBehaviour
         }
     }
 
+
     public void StartNewGame(int slot)
     {
         CurrentState = new GameState();
         CurrentState.SlotId = slot;
     }
-    
+
+
     public void LoadGame(int slot)
     {
         CurrentState = SaveManager.Load(slot);
     }
+
 
     public void SaveGame(int slot)
     {
         SaveManager.Save(slot, CurrentState);
     }
 
+
     public void StartNextWeek()
     {
-        CompetitionScheduler.UpdateCompetitions();
+        // Generate/update competitions
+        competitionScheduler.UpdateCompetitions();
+
+        // Finish previous week finances
+        FinanceManager.ApplyPendingTransactions();
+
+        // Move time forward
         CurrentState.GameTime.ProgressTime();
+
+        // Create upcoming week expenses
+        GenerateCompetitionEntryFees();
+
+        // Save
         SaveGame(CurrentState.SlotId);
-        FindAnyObjectByType<UIManager>().RefreshUI();
+
+        // Update UI
+        UIManager.Instance.InitiateWeek();
+
+        // Show notifications
+        CheckNotifications();
     }
+
+
+
+    private void GenerateCompetitionEntryFees()
+    {
+        foreach (Competition competition in CurrentState.Competitions)
+        {
+            if (competition.WeeksUntil() != 0)
+                continue;
+
+
+            foreach (Athlete athlete in competition.RegisteredAthletes)
+            {
+                FinanceManager.AddExpense(
+                    FinanceEntryType.CompetitionEntryFee,
+                    competition.EntryFee,
+                    true
+                );
+            }
+        }
+    }
+
+
+
+    private void CheckNotifications()
+    {
+        List<Competition> upcomingCompetitions = new();
+
+
+        foreach (Competition competition in CurrentState.Competitions)
+        {
+            int weeksUntil = competition.WeeksUntil();
+
+
+            if (weeksUntil >= 0 && weeksUntil <= 4)
+            {
+                upcomingCompetitions.Add(competition);
+            }
+        }
+
+
+        if (upcomingCompetitions.Count > 0)
+        {
+            UIManager.Instance.OpenCompetitionRegistration(upcomingCompetitions);
+        }
+    }
+
+
 
     public void AdvanceWeek()
     {
-        LastWeekResults = CurrentState.PlayerRoster.TrainAthletes();
+        LastWeekResults =
+            CurrentState.PlayerRoster.TrainAthletes();
+
 
         TrainWorldAthletes();
 
-        FindAnyObjectByType<WeekSummaryUI>().RefreshWeekSummary();    
+
+        FindAnyObjectByType<WeekSummaryUI>()
+            .RefreshWeekSummary();
     }
+
+
 
     private void TrainWorldAthletes()
     {

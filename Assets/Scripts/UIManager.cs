@@ -1,27 +1,40 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance { get; private set; }
 
+
+    [Header("Main Panels")]
     [SerializeField] private GameObject gymPanel;
     [SerializeField] private GameObject rosterPanel;
     [SerializeField] private GameObject trainingPanel;
     [SerializeField] private GameObject schedulePanel;
     [SerializeField] private GameObject financesPanel;
     [SerializeField] private GameObject advanceWeekPanel;
-    [SerializeField] private GameObject playerProfilePanel;
 
+    [Header("Special Panels")]
+    [SerializeField] private GameObject playerProfilePanel;
+    [SerializeField] private GameObject competitionRegistrationPanel;
+
+    [SerializeField] private CompetitionRegisterPanelUI competitionRegisterPanelUI;
+
+
+    [Header("UI Controllers")]
     [SerializeField] private RosterUI rosterUI;
     [SerializeField] private TrainingBoard trainingBoard;
     [SerializeField] private AthleteProfileUI athleteProfileUI;
 
+
+    [Header("HUD")]
     [SerializeField] private TMPro.TextMeshProUGUI dateText;
     [SerializeField] private TMPro.TextMeshProUGUI financesText;
 
 
     private GameObject previousPanel;
-    
+
+
 
     private void Awake()
     {
@@ -35,10 +48,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+
     private void Start()
     {
         RefreshUI();
     }
+
+
+
+    public void InitiateWeek()
+    {
+        RefreshUI();
+    }
+
+
 
     public void RefreshUI()
     {
@@ -46,10 +70,17 @@ public class UIManager : MonoBehaviour
         DisplayMoney();
     }
 
+
+
+    // -----------------------
+    // Roster
+    // -----------------------
+
     public void OpenRoster()
     {
         gymPanel.SetActive(false);
         rosterPanel.SetActive(true);
+
         rosterUI.PrintRoster();
     }
 
@@ -59,10 +90,17 @@ public class UIManager : MonoBehaviour
         gymPanel.SetActive(true);
     }
 
+
+
+    // -----------------------
+    // Training
+    // -----------------------
+
     public void OpenTrainingMenu()
     {
         gymPanel.SetActive(false);
         trainingPanel.SetActive(true);
+
         trainingBoard.Refresh();
     }
 
@@ -71,6 +109,12 @@ public class UIManager : MonoBehaviour
         trainingPanel.SetActive(false);
         gymPanel.SetActive(true);
     }
+
+
+
+    // -----------------------
+    // Schedule
+    // -----------------------
 
     public void OpenSchedule()
     {
@@ -84,6 +128,12 @@ public class UIManager : MonoBehaviour
         gymPanel.SetActive(true);
     }
 
+
+
+    // -----------------------
+    // Finances
+    // -----------------------
+
     public void OpenFinances()
     {
         gymPanel.SetActive(false);
@@ -95,6 +145,12 @@ public class UIManager : MonoBehaviour
         financesPanel.SetActive(false);
         gymPanel.SetActive(true);
     }
+
+
+
+    // -----------------------
+    // Advance Week
+    // -----------------------
 
     public void OpenAdvanceWeek()
     {
@@ -109,33 +165,80 @@ public class UIManager : MonoBehaviour
     }
 
 
+
+    // -----------------------
+    // Competition Registration
+    // -----------------------
+
+    public void OpenCompetitionRegistration()
+    {
+        OpenCompetitionRegistration(null);
+    }
+
+    public void OpenCompetitionRegistration(List<Competition> competitions)
+    {
+        if (competitions != null)
+        {
+            competitionRegisterPanelUI.SetCompetitions(competitions);
+        }
+
+        gymPanel.SetActive(false);
+        competitionRegistrationPanel.SetActive(true);
+    }
+
+    public void CloseCompetitionRegistration()
+    {
+        competitionRegistrationPanel.SetActive(false);
+        gymPanel.SetActive(true);
+    }
+
+    public void OpenRegisterAthletesPanel(Competition competition)
+    {
+        competitionRegisterPanelUI.OpenRegisterAthletesPanel(competition);
+    }
+
+
+
+    // -----------------------
+    // Athlete Profile
+    // -----------------------
+
     public void OpenPlayerProfile(GameObject currentPanel, Athlete athlete)
     {
         previousPanel = currentPanel;
+
         athleteProfileUI.SetData(athlete);
         athleteProfileUI.Refresh();
+
         currentPanel.SetActive(false);
         playerProfilePanel.SetActive(true);
     }
-
 
     public void ClosePlayerProfile()
     {
         playerProfilePanel.SetActive(false);
 
-        if(previousPanel != null)
+        if (previousPanel != null)
         {
             previousPanel.SetActive(true);
         }
     }
 
-    public void DisplayTime()
+
+
+    // -----------------------
+    // HUD
+    // -----------------------
+
+    private void DisplayTime()
     {
-        dateText.text = GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
+        dateText.text =
+            GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
     }
 
-    public void DisplayMoney()
+    private void DisplayMoney()
     {
-        financesText.text = $"{GameManager.Instance.CurrentState.Money:F0} $";
+        financesText.text =
+            $"{GameManager.Instance.CurrentState.Money:F0} $";
     }
 }

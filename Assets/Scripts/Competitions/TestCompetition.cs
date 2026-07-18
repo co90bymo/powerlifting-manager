@@ -5,4 +5,9 @@ public class TestCompetition : Competition
 
     public override string Description =>
         "A temporary competition used during development.";
+
+    public TestCompetition()
+    {
+        EntryFee = 50;
+    }
 }
