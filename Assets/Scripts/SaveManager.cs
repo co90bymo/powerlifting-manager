@@ -21,7 +21,6 @@ public class SaveManager
         string json = JsonConvert.SerializeObject(state, Formatting.Indented);
         File.WriteAllText(GetSavePath(slot), json);
 
-        Debug.Log($"Saved slot {slot} to {GetSavePath(slot)}");
     }
 
     public GameState Load(int slot)
@@ -37,7 +36,6 @@ public class SaveManager
         string json = File.ReadAllText(path);
         GameState state = JsonConvert.DeserializeObject<GameState>(json);
 
-        Debug.Log($"Loaded slot {slot}");
         return state;
     }
 
@@ -53,7 +51,6 @@ public class SaveManager
         if (File.Exists(path))
         {
             File.Delete(path);
-            Debug.Log($"Deleted save slot {slot}");
         }
         else
         {

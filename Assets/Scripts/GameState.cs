@@ -13,6 +13,8 @@ public class GameState
 
     public List<Athlete> WorldAthletes { get; private set; }
 
+    public List<Facility> Facilities { get; private set; }
+
     public float Money { get; set; }
 
 
@@ -24,6 +26,9 @@ public class GameState
         Competitions = new List<Competition>();
 
         WorldAthletes = new List<Athlete>();
+
+        Facilities = new List<Facility>();
+        // Facilities.Add(new Gym());
 
         Money = 0;
     }

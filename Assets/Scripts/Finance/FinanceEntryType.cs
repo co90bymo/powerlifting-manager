@@ -6,3 +6,4 @@ public enum FinanceEntryType
     GymRent,
     EquipmentPurchase
 }
+

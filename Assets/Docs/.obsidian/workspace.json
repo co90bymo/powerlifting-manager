@@ -62,9 +62,37 @@
               "icon": "lucide-file",
               "title": "Iteration 4 - Build the Competitive Ecosystem (Done)"
             }
+          },
+          {
+            "id": "d7ae4c8115f74613",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Iteration 4 - Build the Competitive Ecosystem (Done).md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Iteration 4 - Build the Competitive Ecosystem (Done)"
+            }
+          },
+          {
+            "id": "a4c1bb7f9df1f74c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "architecture.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "architecture"
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 5
       }
     ],
     "direction": "vertical"
@@ -226,10 +254,13 @@
       "bases:Create new base": false
     }
   },
-  "active": "5709393c5d8d78a3",
+  "active": "a4c1bb7f9df1f74c",
   "lastOpenFiles": [
-    "Iteration 3 - Build the Competitive World (Done).md",
+    "Iteration 5 - Introduce Organization Management (Done).md",
     "Iteration 4 - Build the Competitive Ecosystem (Done).md",
+    "GDD.md",
+    "Iteration 4 - Build the Competitive Ecosystem (Done).md.meta",
+    "Iteration 3 - Build the Competitive World (Done).md",
     "architecture.md",
     "Iteration 1 - Create Main Game Loop (Done).md",
     "Iteration 2 - Introduce Player Choices (Done).md",

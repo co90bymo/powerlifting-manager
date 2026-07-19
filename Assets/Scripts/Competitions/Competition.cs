@@ -330,15 +330,14 @@ public class Competition
 
 
 
-    public void ToggleAthleteRegistration(Athlete athlete)
+    public void RegisterAthletes(List<Athlete> athletes)
     {
-        if (RegisteredAthletes.Contains(athlete))
+        foreach (Athlete athlete in athletes)
         {
-            RegisteredAthletes.Remove(athlete);
-        }
-        else
-        {
-            RegisteredAthletes.Add(athlete);
+            if (!RegisteredAthletes.Contains(athlete))
+            {
+                RegisteredAthletes.Add(athlete);
+            }
         }
     }
 

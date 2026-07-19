@@ -2,10 +2,10 @@
 
 ---
 
-## 1. Scene Loop (High-Level Flow)
 
-MainMenu
-    ↕
+NOTE: No changes, this will likely soon be replaced by GDD
+## 1. Game Loop (High-Level Flow)
+
 The Gym
     ↕
 Advance Week

@@ -35,7 +35,10 @@ public class GameManager : MonoBehaviour
     public void StartNewGame(int slot)
     {
         CurrentState = new GameState();
+        CurrentState.Facilities.Add(new Gym());
         CurrentState.SlotId = slot;
+        CurrentState.Money = 1000;
+        GenerateFacilityExpenses();
     }
 
 
@@ -61,9 +64,8 @@ public class GameManager : MonoBehaviour
 
         // Move time forward
         CurrentState.GameTime.ProgressTime();
-
-        // Create upcoming week expenses
-        GenerateCompetitionEntryFees();
+        
+        GenerateFacilityExpenses();
 
         // Save
         SaveGame(CurrentState.SlotId);
@@ -77,24 +79,6 @@ public class GameManager : MonoBehaviour
 
 
 
-    private void GenerateCompetitionEntryFees()
-    {
-        foreach (Competition competition in CurrentState.Competitions)
-        {
-            if (competition.WeeksUntil() != 0)
-                continue;
-
-
-            foreach (Athlete athlete in competition.RegisteredAthletes)
-            {
-                FinanceManager.AddExpense(
-                    FinanceEntryType.CompetitionEntryFee,
-                    competition.EntryFee,
-                    true
-                );
-            }
-        }
-    }
 
 
 
@@ -143,6 +127,21 @@ public class GameManager : MonoBehaviour
         foreach (Athlete athlete in CurrentState.WorldAthletes)
         {
             athlete.TrainAIControlled();
+        }
+    }
+
+    private void GenerateFacilityExpenses()
+    {
+        foreach (Facility facility in CurrentState.Facilities)
+        {
+            FinanceEntry entry =
+                facility.CreateWeeklyFinanceEntry();
+
+            FinanceManager.TryAddExpense(
+                entry.EntryType,
+                entry.Amount,
+                entry.TransactionCompleted
+            );
         }
     }
 }

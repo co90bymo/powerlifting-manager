@@ -12,7 +12,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject trainingPanel;
     [SerializeField] private GameObject schedulePanel;
     [SerializeField] private GameObject financesPanel;
+    [SerializeField] private GameObject facilitiesPanel;
     [SerializeField] private GameObject advanceWeekPanel;
+
 
     [Header("Special Panels")]
     [SerializeField] private GameObject playerProfilePanel;
@@ -84,6 +86,7 @@ public class UIManager : MonoBehaviour
         rosterUI.PrintRoster();
     }
 
+
     public void CloseRoster()
     {
         rosterPanel.SetActive(false);
@@ -104,6 +107,7 @@ public class UIManager : MonoBehaviour
         trainingBoard.Refresh();
     }
 
+
     public void CloseTrainingMenu()
     {
         trainingPanel.SetActive(false);
@@ -121,6 +125,7 @@ public class UIManager : MonoBehaviour
         gymPanel.SetActive(false);
         schedulePanel.SetActive(true);
     }
+
 
     public void CloseSchedule()
     {
@@ -140,9 +145,29 @@ public class UIManager : MonoBehaviour
         financesPanel.SetActive(true);
     }
 
+
     public void CloseFinances()
     {
         financesPanel.SetActive(false);
+        gymPanel.SetActive(true);
+    }
+
+
+
+    // -----------------------
+    // Facilities
+    // -----------------------
+
+    public void OpenFacilities()
+    {
+        gymPanel.SetActive(false);
+        facilitiesPanel.SetActive(true);
+    }
+
+
+    public void CloseFacilities()
+    {
+        facilitiesPanel.SetActive(false);
         gymPanel.SetActive(true);
     }
 
@@ -157,6 +182,7 @@ public class UIManager : MonoBehaviour
         gymPanel.SetActive(false);
         advanceWeekPanel.SetActive(true);
     }
+
 
     public void CloseAdvanceWeek()
     {
@@ -175,6 +201,7 @@ public class UIManager : MonoBehaviour
         OpenCompetitionRegistration(null);
     }
 
+
     public void OpenCompetitionRegistration(List<Competition> competitions)
     {
         if (competitions != null)
@@ -186,11 +213,13 @@ public class UIManager : MonoBehaviour
         competitionRegistrationPanel.SetActive(true);
     }
 
+
     public void CloseCompetitionRegistration()
     {
         competitionRegistrationPanel.SetActive(false);
         gymPanel.SetActive(true);
     }
+
 
     public void OpenRegisterAthletesPanel(Competition competition)
     {
@@ -214,6 +243,7 @@ public class UIManager : MonoBehaviour
         playerProfilePanel.SetActive(true);
     }
 
+
     public void ClosePlayerProfile()
     {
         playerProfilePanel.SetActive(false);
@@ -235,6 +265,7 @@ public class UIManager : MonoBehaviour
         dateText.text =
             GameManager.Instance.CurrentState.GameTime.GetTimeDisplayString();
     }
+
 
     private void DisplayMoney()
     {

@@ -25,8 +25,6 @@ public class CompetitionScheduler
             .Competitions
             .RemoveAll(x => x.HasBeenRun);
 
-
-        Debug.Log("Removed finished competitions");
     }
 
 
@@ -112,11 +110,6 @@ public class CompetitionScheduler
         GameManager.Instance.CurrentState
             .AddCompetition(competition);
 
-
-
-        Debug.Log(
-            $"Created Test Competition at Year {competitionYear} Week {competitionWeek}"
-        );
     }
 
 
@@ -155,10 +148,5 @@ public class CompetitionScheduler
         GameManager.Instance.CurrentState
             .AddCompetition(competition);
 
-
-
-        Debug.Log(
-            $"Created Yearly Invitational at Year {targetYear} Week {targetWeek}"
-        );
     }
 }

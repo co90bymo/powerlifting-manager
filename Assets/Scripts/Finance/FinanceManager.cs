@@ -9,6 +9,7 @@ public class FinanceManager
     public IReadOnlyList<FinanceEntry> Entries => entries;
 
 
+
     public void AddIncome(
         FinanceEntryType entryType,
         float amount,
@@ -23,6 +24,7 @@ public class FinanceManager
             )
         );
 
+
         if (completed)
         {
             GameManager.Instance.CurrentState.Money += amount;
@@ -30,11 +32,25 @@ public class FinanceManager
     }
 
 
-    public void AddExpense(
+
+    public bool CanAfford(float amount)
+    {
+        return GameManager.Instance.CurrentState.Money >= amount;
+    }
+
+
+
+    public bool TryAddExpense(
         FinanceEntryType entryType,
         float amount,
         bool completed)
     {
+        if (completed && !CanAfford(amount))
+        {
+            return false;
+        }
+
+
         entries.Add(
             new FinanceEntry(
                 entryType,
@@ -44,11 +60,16 @@ public class FinanceManager
             )
         );
 
+
         if (completed)
         {
             GameManager.Instance.CurrentState.Money -= amount;
         }
+
+
+        return true;
     }
+
 
 
     public void ProcessWeekFinances()
@@ -56,12 +77,15 @@ public class FinanceManager
         float income = GetWeeklyIncome();
         float expenses = GetWeeklyExpenses();
 
+
         UnityEngine.Debug.Log(
             $"Weekly finances: +{income} income, -{expenses} expenses"
         );
 
+
         ClearWeek();
     }
+
 
 
     public void ClearWeek()
@@ -70,9 +94,11 @@ public class FinanceManager
     }
 
 
+
     public float GetWeeklyIncome()
     {
         float total = 0;
+
 
         foreach (FinanceEntry entry in entries)
         {
@@ -80,13 +106,16 @@ public class FinanceManager
                 total += entry.Amount;
         }
 
+
         return total;
     }
+
 
 
     public float GetWeeklyExpenses()
     {
         float total = 0;
+
 
         foreach (FinanceEntry entry in entries)
         {
@@ -94,12 +123,16 @@ public class FinanceManager
                 total += entry.Amount;
         }
 
+
         return total;
     }
+
+
 
     public float GetAmount(FinanceEntryType entryType)
     {
         float total = 0;
+
 
         foreach (FinanceEntry entry in entries)
         {
@@ -109,8 +142,11 @@ public class FinanceManager
             }
         }
 
+
         return total;
     }
+
+
 
     public void ApplyPendingTransactions()
     {

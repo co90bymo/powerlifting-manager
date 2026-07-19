@@ -7,19 +7,25 @@ public class FinancePanelUI : MonoBehaviour
     [SerializeField] private TMP_Text currentBalanceText;
     [SerializeField] private TMP_Text nextWeekChangeText;
     [SerializeField] private TMP_Text competitionFeesText;
+    [SerializeField] private TMP_Text totalFacilitiesCostText;
+    [SerializeField] private TMP_Text pendingPaymentsText;
 
 
-    private void OnEnable() 
+    private void OnEnable()
     {
         Refresh();
     }
+
 
     public void Refresh()
     {
         DisplayCurrentBalance();
         DisplayNextWeekChange();
         DisplayCompetitionFees();
+        DisplayTotalFacilitiesCost();
+        DisplayPendingPayments();
     }
+
 
 
     private void DisplayCurrentBalance()
@@ -27,6 +33,7 @@ public class FinancePanelUI : MonoBehaviour
         currentBalanceText.text =
             $"{GameManager.Instance.CurrentState.Money:F0} $";
     }
+
 
 
     private void DisplayNextWeekChange()
@@ -42,8 +49,9 @@ public class FinancePanelUI : MonoBehaviour
         string sign = net >= 0 ? "+" : "";
 
         nextWeekChangeText.text =
-            $" {sign}{net:F0} $";
+            $"{sign}{net:F0} $";
     }
+
 
 
     private void DisplayCompetitionFees()
@@ -53,7 +61,61 @@ public class FinancePanelUI : MonoBehaviour
                 FinanceEntryType.CompetitionEntryFee
             );
 
-        competitionFeesText.text =
-            $"-{competitionFees:F0} $";
+        if (competitionFees <= 0)
+        {
+            competitionFeesText.text = "0 $";
+        }
+        else
+        {
+            competitionFeesText.text =
+                $"-{competitionFees:F0} $ (Paid)";
+        }
+    }
+
+
+
+    private void DisplayTotalFacilitiesCost()
+    {
+        float totalCost = 0;
+
+        foreach (Facility facility in
+                 GameManager.Instance.CurrentState.Facilities)
+        {
+            if (!facility.Owner)
+                continue;
+
+            totalCost += facility.WeeklyCost;
+            totalCost += facility.MaintenanceCost;
+        }
+
+        totalFacilitiesCostText.text =
+            $"-{totalCost:F0} $";
+    }
+
+
+
+    private void DisplayPendingPayments()
+    {
+        float pending = 0;
+
+        foreach (FinanceEntry entry in
+                 GameManager.Instance.FinanceManager.Entries)
+        {
+            if (!entry.TransactionCompleted &&
+                entry.Type == FinanceType.Expense)
+            {
+                pending += entry.Amount;
+            }
+        }
+
+        if (pending <= 0)
+        {
+            pendingPaymentsText.text = "0 $";
+        }
+        else
+        {
+            pendingPaymentsText.text =
+                $"-{pending:F0} $";
+        }
     }
 }

@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4595146671570130331}
   - component: {fileID: 6714069146630763798}
   - component: {fileID: 8671154994289822883}
+  - component: {fileID: 9030364456237350655}
   m_Layer: 5
   m_Name: 'Competition Selection '
   m_TagString: Untagged
@@ -159,6 +160,25 @@ MonoBehaviour:
   button: {fileID: 4595146671570130331}
   competitionNameText: {fileID: 7125649682287922681}
   feeText: {fileID: 8687997771384684485}
+  buttonImage: {fileID: 1571238138000824355}
+  outline: {fileID: 9030364456237350655}
+  deadlineColor: {r: 0.9811321, g: 0.36561054, b: 0.36561054, a: 0.039215688}
+  outlineColor: {r: 1, g: 0, b: 0, a: 1}
+--- !u!114 &9030364456237350655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1468724893181468047}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Outline
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1584663409900592758
 GameObject:
   m_ObjectHideFlags: 0

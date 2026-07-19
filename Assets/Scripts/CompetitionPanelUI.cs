@@ -40,9 +40,10 @@ public class CompetitionPanelUI : MonoBehaviour
 
     public void OnClickEndCompetitionButton()
     {
+        welcomeMessagePanel.SetActive(true);
         notificationPanel.SetActive(false);
         competitionPanel.SetActive(false);
-        summaryPanel.SetActive(true);
+        summaryPanel.SetActive(false);
         advanceWeekPanel.SetActive(true);
     }
 
