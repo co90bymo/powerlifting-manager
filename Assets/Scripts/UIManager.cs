@@ -14,6 +14,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject financesPanel;
     [SerializeField] private GameObject facilitiesPanel;
     [SerializeField] private GameObject advanceWeekPanel;
+    [SerializeField] private GameObject reputationPanel;
+    [SerializeField] private GameObject clubPanel;
 
 
     [Header("Special Panels")]
@@ -32,6 +34,8 @@ public class UIManager : MonoBehaviour
     [Header("HUD")]
     [SerializeField] private TMPro.TextMeshProUGUI dateText;
     [SerializeField] private TMPro.TextMeshProUGUI financesText;
+    [SerializeField] private TMPro.TextMeshProUGUI reputationText;
+
 
 
     private GameObject previousPanel;
@@ -70,6 +74,7 @@ public class UIManager : MonoBehaviour
     {
         DisplayTime();
         DisplayMoney();
+        DisplayReputation();
     }
 
 
@@ -171,6 +176,39 @@ public class UIManager : MonoBehaviour
         gymPanel.SetActive(true);
     }
 
+    // -----------------------
+    // Reputation
+    // -----------------------
+
+    public void OpenReputation()
+    {
+        gymPanel.SetActive(false);
+        reputationPanel.SetActive(true);
+    }
+
+
+    public void CloseReputation()
+    {
+        reputationPanel.SetActive(false);
+        gymPanel.SetActive(true);
+    }
+
+    // -----------------------
+    // Club
+    // -----------------------
+
+    public void OpenClub()
+    {
+        gymPanel.SetActive(false);
+        clubPanel.SetActive(true);
+    }
+
+
+    public void CloseClub()
+    {
+        clubPanel.SetActive(false);
+        gymPanel.SetActive(true);
+    }
 
 
     // -----------------------
@@ -270,6 +308,12 @@ public class UIManager : MonoBehaviour
     private void DisplayMoney()
     {
         financesText.text =
-            $"{GameManager.Instance.CurrentState.Money:F0} $";
+            $"{GameManager.Instance.CurrentState.PlayerClub.Money:F0} $";
+    }
+
+    private void DisplayReputation()
+    {
+        reputationText.text =
+            $"{GameManager.Instance.CurrentState.PlayerClub.Reputation}";
     }
 }

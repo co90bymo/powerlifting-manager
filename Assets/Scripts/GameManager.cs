@@ -35,9 +35,9 @@ public class GameManager : MonoBehaviour
     public void StartNewGame(int slot)
     {
         CurrentState = new GameState();
-        CurrentState.Facilities.Add(new Gym());
+        CurrentState.PlayerClub.Facilities.Add(new Gym());
         CurrentState.SlotId = slot;
-        CurrentState.Money = 1000;
+        CurrentState.PlayerClub.Money = 1000;
         GenerateFacilityExpenses();
     }
 
@@ -110,7 +110,7 @@ public class GameManager : MonoBehaviour
     public void AdvanceWeek()
     {
         LastWeekResults =
-            CurrentState.PlayerRoster.TrainAthletes();
+            CurrentState.PlayerClub.PlayerRoster.TrainAthletes();
 
 
         TrainWorldAthletes();
@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
 
     private void GenerateFacilityExpenses()
     {
-        foreach (Facility facility in CurrentState.Facilities)
+        foreach (Facility facility in CurrentState.PlayerClub.Facilities)
         {
             FinanceEntry entry =
                 facility.CreateWeeklyFinanceEntry();

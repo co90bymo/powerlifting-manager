@@ -31,7 +31,7 @@ public class FinancePanelUI : MonoBehaviour
     private void DisplayCurrentBalance()
     {
         currentBalanceText.text =
-            $"{GameManager.Instance.CurrentState.Money:F0} $";
+            $"{GameManager.Instance.CurrentState.PlayerClub.Money:F0} $";
     }
 
 
@@ -79,7 +79,7 @@ public class FinancePanelUI : MonoBehaviour
         float totalCost = 0;
 
         foreach (Facility facility in
-                 GameManager.Instance.CurrentState.Facilities)
+                 GameManager.Instance.CurrentState.PlayerClub.Facilities)
         {
             if (!facility.Owner)
                 continue;

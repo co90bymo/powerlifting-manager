@@ -36,7 +36,7 @@ public class FacilitiesPanelUI : MonoBehaviour
     public void OpenGym()
     {
         Facility gym =
-            GameManager.Instance.CurrentState.Facilities[0];
+            GameManager.Instance.CurrentState.PlayerClub.Facilities[0];
 
         DisplayFacility(
             gym,

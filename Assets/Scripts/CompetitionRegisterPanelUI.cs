@@ -113,7 +113,7 @@ public class CompetitionRegisterPanelUI : MonoBehaviour
 
 
         foreach (Athlete athlete in
-                 GameManager.Instance.CurrentState.PlayerRoster.Athletes)
+                 GameManager.Instance.CurrentState.PlayerClub.PlayerRoster.Athletes)
         {
             GameObject buttonObject =
                 Instantiate(
@@ -332,7 +332,7 @@ public class CompetitionRegisterPanelUI : MonoBehaviour
     private void RefreshCurrentBalance()
     {
         currentBalanceText.text =
-            $"Current Balance: {GameManager.Instance.CurrentState.Money:F0}$";
+            $"Current Balance: {GameManager.Instance.CurrentState.PlayerClub.Money:F0}$";
     }
 
 

@@ -7,6 +7,8 @@ public class CompetitionSelectionButtonUI : MonoBehaviour
     [SerializeField] private Button button;
 
     [Header("Texts")]
+    [SerializeField] private TMP_Text reputationRequirementText;
+
     [SerializeField] private TMP_Text competitionNameText;
     [SerializeField] private TMP_Text feeText;
 
@@ -31,18 +33,37 @@ public class CompetitionSelectionButtonUI : MonoBehaviour
         competitionNameText.text =
             competition.CompetitionName;
 
+        reputationRequirementText.text =
+            $"{competition.RequiredReputation}";
+
 
         RefreshFee();
 
 
         button.onClick.RemoveAllListeners();
 
+
+        bool canEnter =
+            GameManager.Instance
+            .CurrentState
+            .PlayerClub
+            .Reputation >= competition.RequiredReputation;
+
+
+        button.interactable = canEnter;
+
+
+        if (!canEnter)
+        {
+            return;
+        }
+
+
         button.onClick.AddListener(() =>
         {
             UIManager.Instance.OpenRegisterAthletesPanel(competition);
         });
     }
-
 
 
     public void RefreshFee()

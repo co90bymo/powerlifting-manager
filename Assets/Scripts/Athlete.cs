@@ -68,9 +68,10 @@ public class Athlete
                 break;
 
             case TrainingGroup.Light:
-                Squat += 1.25f;
-                Bench += 1.25f;
-                Deadlift += 1.25f;
+                Squat += 0f;
+                Bench += 0f;
+                Deadlift += 0f;
+                Fatigue -= 1;
                 break;
 
             case TrainingGroup.Normal:
@@ -114,8 +115,15 @@ public class Athlete
         Deadlift += 1.25f;
     }
 
-    public float[] GetCompetitionAttempts(float maxLift)
+    public float[] GetCompetitionAttempts(float maxLift, int fatigue)
     {
+        float fatigueModifier = 1f - (fatigue * 0.015f);
+        float competitionMax = maxLift * fatigueModifier;
+        
+        // Might be usable later to test how we can modify comp Results
+        //UnityEngine.Debug.Log(maxLift);
+        //UnityEngine.Debug.Log(competitionMax);
+
         return new float[]
         {
             maxLift * 0.85f,

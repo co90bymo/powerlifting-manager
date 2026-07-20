@@ -27,7 +27,7 @@ public class FinanceManager
 
         if (completed)
         {
-            GameManager.Instance.CurrentState.Money += amount;
+            GameManager.Instance.CurrentState.PlayerClub.Money += amount;
         }
     }
 
@@ -35,7 +35,7 @@ public class FinanceManager
 
     public bool CanAfford(float amount)
     {
-        return GameManager.Instance.CurrentState.Money >= amount;
+        return GameManager.Instance.CurrentState.PlayerClub.Money >= amount;
     }
 
 
@@ -63,7 +63,7 @@ public class FinanceManager
 
         if (completed)
         {
-            GameManager.Instance.CurrentState.Money -= amount;
+            GameManager.Instance.CurrentState.PlayerClub.Money -= amount;
         }
 
 
@@ -158,15 +158,17 @@ public class FinanceManager
 
             if (entry.Type == FinanceType.Income)
             {
-                GameManager.Instance.CurrentState.Money += entry.Amount;
+                GameManager.Instance.CurrentState.PlayerClub.Money += entry.Amount;
             }
             else if (entry.Type == FinanceType.Expense)
             {
-                GameManager.Instance.CurrentState.Money -= entry.Amount;
+                GameManager.Instance.CurrentState.PlayerClub.Money -= entry.Amount;
             }
 
 
             entry.TransactionCompleted = true;
         }
+
+        ClearWeek();
     }
 }

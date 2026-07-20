@@ -1,11 +1,10 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 public class GameState
 {
     public int SlotId { get; set; }
-
-    public Roster PlayerRoster { get; private set; }
 
     public GameTime GameTime { get; private set; }
 
@@ -13,25 +12,19 @@ public class GameState
 
     public List<Athlete> WorldAthletes { get; private set; }
 
-    public List<Facility> Facilities { get; private set; }
-
-    public float Money { get; set; }
+    public Club PlayerClub { get; private set; }
 
 
-    public GameState()
-    {
-        PlayerRoster = new Roster();
-        GameTime = new GameTime();
+public GameState()
+{
+    GameTime = new GameTime();
 
-        Competitions = new List<Competition>();
+    Competitions = new List<Competition>();
 
-        WorldAthletes = new List<Athlete>();
+    WorldAthletes = new List<Athlete>();
 
-        Facilities = new List<Facility>();
-        // Facilities.Add(new Gym());
-
-        Money = 0;
-    }
+    PlayerClub = new Club();
+}
 
 
 

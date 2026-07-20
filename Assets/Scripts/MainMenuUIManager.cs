@@ -57,7 +57,7 @@ public class MainMenuUIManager : MonoBehaviour
 
         foreach (Athlete athlete in selectedAthletes)
         {
-            GameManager.Instance.CurrentState.PlayerRoster.AddAthlete(athlete);
+            GameManager.Instance.CurrentState.PlayerClub.PlayerRoster.AddAthlete(athlete);
         }
 
         NewGameGenerator.GenerateWorldAthletes(

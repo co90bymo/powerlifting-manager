@@ -2,9 +2,9 @@ using UnityEngine;
 
 public class CompetitionScheduler
 {
-    private const int TEST_COMPETITION_INTERVAL = 3;
+    private const int TEST_COMPETITION_INTERVAL = 4;
 
-    private const int YEARLY_INVITATIONAL_WEEK = 10;
+    private const int YEARLY_INVITATIONAL_WEEK = 26;
 
 
 

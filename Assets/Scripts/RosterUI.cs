@@ -41,7 +41,7 @@ public class RosterUI : MonoBehaviour
             }
         }
 
-        var roster = GameManager.Instance.CurrentState.PlayerRoster;
+        var roster = GameManager.Instance.CurrentState.PlayerClub.PlayerRoster;
 
         if (roster == null || roster.IsEmpty())
         {
