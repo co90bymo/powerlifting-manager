@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     public List<TrainingResult> LastWeekResults { get; private set; }
 
     private CompetitionScheduler competitionScheduler;
+    public CompetitionDay CurrentCompetitionDay { get; private set; }
 
 
     private void Awake()
@@ -143,5 +144,29 @@ public class GameManager : MonoBehaviour
                 entry.TransactionCompleted
             );
         }
+    }
+
+    public void StartCompetitionDay(Competition competition)
+    {
+        CurrentCompetitionDay = new CompetitionDay();
+
+        CurrentCompetitionDay.Competition = competition;
+
+        List<Athlete> participants = new();
+
+        participants.AddRange(competition.RegisteredAthletes);
+        participants.AddRange(CurrentState.WorldAthletes);
+
+        foreach (Athlete athlete in participants)
+        {
+            CompetitionAttempt attemptData =
+                new CompetitionAttempt();
+
+            attemptData.Athlete = athlete;
+
+            CurrentCompetitionDay.AthleteAttempts.Add(attemptData);
+        }
+
+        UnityEngine.Debug.Log(CurrentCompetitionDay.AthleteAttempts.Count);
     }
 }

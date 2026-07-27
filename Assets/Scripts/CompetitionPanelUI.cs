@@ -8,16 +8,28 @@ public class CompetitionPanelUI : MonoBehaviour
     [SerializeField] private GameObject welcomeMessagePanel;
     [SerializeField] private GameObject advanceWeekPanel;
     [SerializeField] private GameObject competitionPanel;
+    [SerializeField] private GameObject resultsViewHolderPanel;
     [SerializeField] private GameObject summaryPanel;
     [SerializeField] private GameObject mainPanel;
+    [SerializeField] private GameObject firstAttemptPanel;
+    [SerializeField] private GameObject competitionAnimationPanel;
+    [SerializeField] private GameObject competitionAnimationGrid;
 
 
+
+    [Header("First Attempt")]
+    [SerializeField] private CompetitionFlowManager competitionFlowManager;
+
+    [SerializeField] private Transform firstAttemptContent;
+    [SerializeField] private GameObject attemptInputRowPrefab;
 
     [Header("Results")]
     [SerializeField] private Transform contentParent;
     [SerializeField] private GameObject competitionRowPrefab;
     [SerializeField] private CompetitionRowUI headerRow;
     [SerializeField] private TMPro.TMP_Text earnedPrizeMoneyText;
+
+    public List<CompetitionAttempt> attemptInputs = new();
 
 
 
@@ -31,13 +43,6 @@ public class CompetitionPanelUI : MonoBehaviour
 
 
 
-    void Start()
-    {
-        //RunCompetition();
-    }
-
-
-
     public void OnClickEndCompetitionButton()
     {
         welcomeMessagePanel.SetActive(true);
@@ -47,30 +52,95 @@ public class CompetitionPanelUI : MonoBehaviour
         advanceWeekPanel.SetActive(true);
     }
 
-
     public void OnClickConfirmWelcomeMessage()
     {
         welcomeMessagePanel.SetActive(false);
+
+        Competition competition =
+            GameManager.Instance.CurrentState.Competitions[0];
+
+        GameManager.Instance.StartCompetitionDay(competition);
     }
 
 
     public void OnClickConfirmResults()
     {
-        summaryPanel.SetActive(true);
+        if (competitionFlowManager.CurrentAttempt > 3)
+        {
+            summaryPanel.SetActive(true);
+            resultsViewHolderPanel.SetActive(false);
+        }
+        else
+        {
+            OpenCompetitionAnimationPanel(false);
+            competitionFlowManager.StartAnimation();
+        }
     }
 
 
+    public void OpenFirstAttemptPanel()
+    {
+        firstAttemptPanel.SetActive(true);
+        PopulateFirstAttemptPanel();
+    }
 
-    public void RunCompetition()
+
+    public void CloseFirstAttemptPanel()
+    {
+        firstAttemptPanel.SetActive(false);
+    }
+
+    public void OpenResultsViewHolderPanel()
+    {
+        resultsViewHolderPanel.SetActive(true);
+    }
+
+
+    public void CloseResultsViewHolderPanel()
+    {
+        resultsViewHolderPanel.SetActive(false);
+    }
+
+    public void OpenCompetitionAnimationPanel(bool firstRound)
+    {
+        if (firstRound)
+        {
+            competitionFlowManager.SaveAttemptInputs();
+        }
+
+        competitionAnimationPanel.SetActive(true);
+        competitionAnimationGrid.SetActive(true);
+        firstAttemptPanel.SetActive(false);
+        mainPanel.SetActive(false);
+    }
+
+
+    public void CloseCompetitionAnimationPanel()
+    {
+       competitionAnimationPanel.SetActive(false);
+       competitionAnimationGrid.SetActive(false);
+       mainPanel.SetActive(true);
+    }
+
+
+    public void RunAttempt(
+    List<CompetitionAttempt> playerAttempts, int attempt
+    )
     {
         var results =
             GameManager.Instance.CurrentState
                 .Competitions[0]
-                .RunCompetition();
-
+                .RunAttempt(
+                    attempt,
+                    playerAttempts
+                );
 
         dotsResults = results.overallResults;
         totalResults = results.totalResults;
+
+        showOverallPlace = true;
+
+        PopulateResultsView(true);
 
 
         float earnedPrizeMoney =
@@ -89,11 +159,6 @@ public class CompetitionPanelUI : MonoBehaviour
 
         earnedPrizeMoneyText.text =
             $"You earned {earnedPrizeMoney:F2}$ from this competition";
-
-
-        showOverallPlace = true;
-
-        PopulateResultsView(true);
     }
 
 
@@ -156,6 +221,28 @@ public class CompetitionPanelUI : MonoBehaviour
         }
     }
 
+    public void PopulateFirstAttemptPanel()
+    {
+        foreach (Transform child in firstAttemptContent)
+        {
+            Destroy(child.gameObject);
+        }
+
+        Competition competition =
+            GameManager.Instance.CurrentState.Competitions[0];
+
+        foreach (Athlete athlete in competition.RegisteredAthletes)
+        {
+            GameObject row =
+                Instantiate(
+                    attemptInputRowPrefab,
+                    firstAttemptContent
+                );
+
+            row.GetComponent<AttemptInputRowUI>()
+                .SetData(athlete);
+        }
+    }
 
 
     // ==========================

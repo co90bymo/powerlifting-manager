@@ -108,7 +108,7 @@ public class WeekSummaryUI : MonoBehaviour
                 competition.Week == GameManager.Instance.CurrentState.GameTime.Week)
             {
                 competitionPanel.SetActive(true);
-                competitionPanel.GetComponent<CompetitionPanelUI>().RunCompetition();
+                // competitionPanel.GetComponent<CompetitionPanelUI>().RunCompetition();
                 advanceWeekPanel.SetActive(false);
                 return;
             }

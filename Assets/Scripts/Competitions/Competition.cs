@@ -65,172 +65,195 @@ public class Competition
     // ============================
     // Competition Execution
     // ============================
+  public (
+    List<CompetitionResult> overallResults,
+    List<CompetitionResult> totalResults
+)
+RunAttempt(
+    int attempt,
+    List<CompetitionAttempt> playerResults
+)
+{
+    List<CompetitionResult> allResults = new();
 
-    public (
-        List<CompetitionResult> overallResults,
-        List<CompetitionResult> totalResults,
-        float totalPrizeMoney
-    )
-    RunCompetition()
+
+    Dictionary<WeightClass, List<Athlete>> groups = new();
+
+
+    List<Athlete> participants = new();
+
+    participants.AddRange(
+        RegisteredAthletes
+    );
+
+    participants.AddRange(
+        GameManager.Instance.CurrentState.WorldAthletes
+    );
+
+
+    foreach (Athlete athlete in participants)
     {
-        List<CompetitionResult> allResults = new();
+        WeightClass weightClass =
+            athlete.GetWeightClass();
 
 
-
-        Dictionary<WeightClass, List<Athlete>> groups = new();
-
-
-
-        List<Athlete> participants = new();
-
-
-        participants.AddRange(
-            RegisteredAthletes
-        );
-
-
-        participants.AddRange(
-            GameManager.Instance.CurrentState.WorldAthletes
-        );
-
-
-
-        foreach (Athlete athlete in participants)
+        if (!groups.ContainsKey(weightClass))
         {
-            WeightClass weightClass =
-                athlete.GetWeightClass();
+            groups[weightClass] = new();
+        }
 
 
-            if (!groups.ContainsKey(weightClass))
+        groups[weightClass].Add(athlete);
+    }
+
+
+
+    float aiAttemptMultiplier = attempt switch
+    {
+        1 => 0.90f,
+        2 => 0.95f,
+        3 => 1.00f,
+        _ => 1.00f
+    };
+
+
+
+    foreach (var group in groups)
+    {
+        List<CompetitionResult> classResults = new();
+
+
+
+        foreach (Athlete athlete in group.Value)
+        {
+            CompetitionResult result = new();
+
+            result.Athlete = athlete;
+            result.WeightClass = group.Key;
+
+
+
+            // Player entered attempts
+            if (athlete.Owner == AthleteOwner.Player)
             {
-                groups[weightClass] = new();
+                CompetitionAttempt playerAttempt =
+                    playerResults.Find(
+                        x => x.Athlete == athlete
+                    );
+
+
+                if (playerAttempt != null)
+                {
+                    result.BestSquat =
+                        playerAttempt.Squat;
+
+                    result.BestBench =
+                        playerAttempt.Bench;
+
+                    result.BestDeadlift =
+                        playerAttempt.Deadlift;
+                }
             }
 
 
-            groups[weightClass].Add(athlete);
+
+            // AI generated attempts
+            else
+            {
+                result.BestSquat =
+                    athlete.Squat * aiAttemptMultiplier;
+
+                result.BestBench =
+                    athlete.Bench * aiAttemptMultiplier;
+
+                result.BestDeadlift =
+                    athlete.Deadlift * aiAttemptMultiplier;
+            }
+
+
+
+            result.Total =
+                result.BestSquat +
+                result.BestBench +
+                result.BestDeadlift;
+
+
+
+            result.Dots =
+                CalculateDots(
+                    athlete.Weight,
+                    result.Total
+                );
+
+
+            classResults.Add(result);
         }
 
 
 
-
-        foreach (var group in groups)
-        {
-            List<CompetitionResult> classResults = new();
-
-
-            foreach (Athlete athlete in group.Value)
-            {
-                int Fatigue = athlete.Fatigue;
-
-                float[] squatAttempts =
-                    athlete.GetCompetitionAttempts(
-                        athlete.Squat,
-                        Fatigue
-                    );
-
-
-                float[] benchAttempts =
-                    athlete.GetCompetitionAttempts(
-                        athlete.Bench,
-                        Fatigue
-                    );
-
-
-                float[] deadliftAttempts =
-                    athlete.GetCompetitionAttempts(
-                        athlete.Deadlift,
-                        Fatigue
-                    );
-
-
-
-                CompetitionResult result = new()
-                {
-                    Athlete = athlete,
-
-                    WeightClass = group.Key,
-
-                    BestSquat = squatAttempts[2],
-
-                    BestBench = benchAttempts[2],
-
-                    BestDeadlift = deadliftAttempts[2]
-                };
-
-
-
-                result.Total =
-                    result.BestSquat +
-                    result.BestBench +
-                    result.BestDeadlift;
-
-
-
-                result.Dots =
-                    CalculateDots(
-                        athlete.Weight,
-                        result.Total
-                    );
-
-
-
-                classResults.Add(result);
-            }
-
-
-
-
-            classResults.Sort((a, b) =>
+        classResults.Sort(
+            (a,b) =>
                 b.Total.CompareTo(a.Total)
-            );
+        );
+
+
+        for (int i = 0; i < classResults.Count; i++)
+        {
+            classResults[i].Place = i + 1;
+        }
 
 
 
-            for (int i = 0; i < classResults.Count; i++)
-            {
-                classResults[i].Place = i + 1;
-            }
-
-
-
+        // Only final attempt awards weight class prizes
+        if (attempt == 3)
+        {
             AssignWeightClassPrizeMoney(
                 classResults
             );
-
-
-            allResults.AddRange(
-                classResults
-            );
         }
 
 
 
+        allResults.AddRange(
+            classResults
+        );
+    }
 
-        List<CompetitionResult> overallResults =
-            allResults
-            .OrderByDescending(x => x.Dots)
+
+
+
+    List<CompetitionResult> overallResults =
+        allResults
+            .OrderByDescending(
+                x => x.Dots
+            )
             .ToList();
 
 
 
-        for (int i = 0; i < overallResults.Count; i++)
-        {
-            overallResults[i].OverallPlace = i + 1;
-        }
+    for (int i = 0; i < overallResults.Count; i++)
+    {
+        overallResults[i].OverallPlace =
+            i + 1;
+    }
 
 
 
+    List<CompetitionResult> totalResults =
+        allResults
+            .OrderByDescending(
+                x => x.Total
+            )
+            .ToList();
+
+
+
+    // Final competition rewards
+    if (attempt == 3)
+    {
         AssignOverallPrizeMoney(
             overallResults
         );
-
-
-
-        List<CompetitionResult> totalResults =
-            allResults
-            .OrderByDescending(x => x.Total)
-            .ToList();
-
 
 
         AwardPlayerPrizeMoney(
@@ -249,19 +272,16 @@ public class Competition
 
 
         HasBeenRun = true;
-
-
-
-        return
-        (
-            overallResults,
-            totalResults,
-            0
-        );
     }
 
 
 
+    return
+    (
+        overallResults,
+        totalResults
+    );
+}
     // ============================
     // Prize Money Assignment
     // ============================
