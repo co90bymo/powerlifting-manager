@@ -21,11 +21,8 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-    // Current attempt being simulated
     public List<CompetitionAttempt> attemptInputs = new();
 
-
-    // Data collected for the following attempt
     public List<CompetitionAttempt> nextAttemptInputs = new();
 
 
@@ -44,7 +41,6 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-    // Called when competition day starts
     public void StartCompetitionDay(
         Competition competition
     )
@@ -59,7 +55,6 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-    // Called after player confirms input
     public void StartAnimation()
     {
         firstAttemptPanel.SetActive(false);
@@ -96,18 +91,14 @@ public class CompetitionFlowManager : MonoBehaviour
         }
 
 
-
         CompetitionAttempt attempt =
             attemptInputs[currentAthleteIndex];
 
 
 
-        bool success = true;
-
-
-
         string liftName;
         float weight;
+        bool success;
 
 
 
@@ -117,6 +108,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
                 liftName = "Squat";
                 weight = attempt.Squat;
+                success = attempt.SuccessSquat;
 
                 break;
 
@@ -125,6 +117,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
                 liftName = "Bench";
                 weight = attempt.Bench;
+                success = attempt.SuccessBench;
 
                 break;
 
@@ -133,6 +126,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
                 liftName = "Deadlift";
                 weight = attempt.Deadlift;
+                success = attempt.SuccessDeadlift;
 
                 break;
         }
@@ -149,17 +143,12 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-
-
-    // Connected to animation confirm button
     public void ConfirmAnimation()
     {
         SaveNextAttemptInput();
 
 
-
         currentLiftIndex++;
-
 
 
         if (currentLiftIndex >= 3)
@@ -169,11 +158,8 @@ public class CompetitionFlowManager : MonoBehaviour
         }
 
 
-
         PlayCurrentAttempt();
     }
-
-
 
 
 
@@ -237,7 +223,32 @@ public class CompetitionFlowManager : MonoBehaviour
                     tempDeadlift;
 
 
-                attempt.success = true;
+
+                attempt.SuccessSquat =
+                    AttemptSuccessCalculator.RollPlayer(
+                        attempt.Athlete,
+                        LiftType.Squat,
+                        attempt.Squat,
+                        CurrentAttempt
+                    );
+
+
+                attempt.SuccessBench =
+                    AttemptSuccessCalculator.RollPlayer(
+                        attempt.Athlete,
+                        LiftType.Bench,
+                        attempt.Bench,
+                        CurrentAttempt
+                    );
+
+
+                attempt.SuccessDeadlift =
+                    AttemptSuccessCalculator.RollPlayer(
+                        attempt.Athlete,
+                        LiftType.Deadlift,
+                        attempt.Deadlift,
+                        CurrentAttempt
+                    );
 
 
 
@@ -259,12 +270,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
         nextAttemptInputField.text = "";
     }
-
-
-
-
-
-    private void EndAttempts()
+        private void EndAttempts()
     {
         // IMPORTANT:
         // Run the current attempt BEFORE replacing the data
@@ -272,7 +278,6 @@ public class CompetitionFlowManager : MonoBehaviour
             attemptInputs,
             CurrentAttempt
         );
-
 
 
         animationPanel.SetActive(false);
@@ -347,6 +352,7 @@ public class CompetitionFlowManager : MonoBehaviour
                 row.Athlete;
 
 
+
             data.Squat =
                 row.GetSquatInput();
 
@@ -359,7 +365,35 @@ public class CompetitionFlowManager : MonoBehaviour
                 row.GetDeadliftInput();
 
 
-            data.success = true;
+
+            // Roll success once here.
+            // The animation and competition results will use this same value.
+
+            data.SuccessSquat =
+                AttemptSuccessCalculator.RollPlayer(
+                    data.Athlete,
+                    LiftType.Squat,
+                    data.Squat,
+                    CurrentAttempt
+                );
+
+
+            data.SuccessBench =
+                AttemptSuccessCalculator.RollPlayer(
+                    data.Athlete,
+                    LiftType.Bench,
+                    data.Bench,
+                    CurrentAttempt
+                );
+
+
+            data.SuccessDeadlift =
+                AttemptSuccessCalculator.RollPlayer(
+                    data.Athlete,
+                    LiftType.Deadlift,
+                    data.Deadlift,
+                    CurrentAttempt
+                );
 
 
 
@@ -381,9 +415,9 @@ public class CompetitionFlowManager : MonoBehaviour
         {
             Debug.Log(
                 $"{attempt.Athlete.Name} | " +
-                $"Squat: {attempt.Squat} | " +
-                $"Bench: {attempt.Bench} | " +
-                $"Deadlift: {attempt.Deadlift}"
+                $"Squat: {attempt.Squat} ({attempt.SuccessSquat}) | " +
+                $"Bench: {attempt.Bench} ({attempt.SuccessBench}) | " +
+                $"Deadlift: {attempt.Deadlift} ({attempt.SuccessDeadlift})"
             );
         }
     }

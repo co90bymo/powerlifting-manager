@@ -5,5 +5,7 @@ public class CompetitionAttempt
     public float Squat;
     public float Bench;
     public float Deadlift;
-    public bool success;
+    public bool SuccessSquat;
+    public bool SuccessBench;
+    public bool SuccessDeadlift;
 }
