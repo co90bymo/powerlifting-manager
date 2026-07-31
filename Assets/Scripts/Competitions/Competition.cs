@@ -192,13 +192,20 @@ public class Competition
                 else
                 {
                     float squat =
-                        athlete.Squat * aiAttemptMultiplier;
+                        LiftRules.RoundToIncrement(
+                            athlete.Squat * aiAttemptMultiplier
+                        );
 
                     float bench =
-                        athlete.Bench * aiAttemptMultiplier;
+                        LiftRules.RoundToIncrement(
+                            athlete.Bench * aiAttemptMultiplier
+                        );
+
 
                     float deadlift =
-                        athlete.Deadlift * aiAttemptMultiplier;
+                        LiftRules.RoundToIncrement(
+                            athlete.Deadlift * aiAttemptMultiplier
+                        );
 
 
 

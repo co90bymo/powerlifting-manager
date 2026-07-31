@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 using TMPro;
 using UnityEngine;
 
@@ -20,6 +22,7 @@ public class CompetitionFlowManager : MonoBehaviour
     [SerializeField] private TMP_InputField nextAttemptInputField;
 
 
+    public List<CompetitionAttempt> previousAttemptInputs = new();
 
     public List<CompetitionAttempt> attemptInputs = new();
 
@@ -27,6 +30,8 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
     public int CurrentAttempt { get; private set; } = 1;
+
+    private bool competitionStarted;
 
 
 
@@ -62,7 +67,7 @@ public class CompetitionFlowManager : MonoBehaviour
         animationPanel.SetActive(true);
         gridPanel.SetActive(true);
 
-
+        competitionStarted = true;
         currentAthleteIndex = 0;
         currentLiftIndex = 0;
 
@@ -145,7 +150,13 @@ public class CompetitionFlowManager : MonoBehaviour
 
     public void ConfirmAnimation()
     {
-        SaveNextAttemptInput();
+        bool saved = SaveNextAttemptInput();
+
+
+        if (!saved)
+        {
+            return;
+        }
 
 
         currentLiftIndex++;
@@ -163,7 +174,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-    private void SaveNextAttemptInput()
+    private bool SaveNextAttemptInput()
     {
         float input;
 
@@ -175,7 +186,41 @@ public class CompetitionFlowManager : MonoBehaviour
             input = 0;
         }
 
+        CompetitionAttempt previousAttempt = null;
 
+        if (competitionStarted)
+        {
+            previousAttempt =
+                attemptInputs[currentAthleteIndex];
+                                
+            UnityEngine.Debug.Log(competitionStarted);
+
+            UnityEngine.Debug.Log(previousAttempt.Squat);
+            UnityEngine.Debug.Log(previousAttempt.Squat);
+            UnityEngine.Debug.Log(previousAttempt.Squat);
+
+        }
+
+        LiftType liftType =
+            currentLiftIndex switch
+            {
+                0 => LiftType.Squat,
+                1 => LiftType.Bench,
+                _ => LiftType.Deadlift
+            };
+        //UnityEngine.Debug.Log(previousAttempt.Squat);
+        //UnityEngine.Debug.Log(previousAttempt.Bench);
+        //UnityEngine.Debug.Log(previousAttempt.Deadlift);
+
+
+        if (!LiftRules.IsLegalAttempt(
+                input,
+                previousAttempt,
+                liftType))
+        {
+            UnityEngine.Debug.Log("Illegal attempt.");
+            return false;
+        }
 
         switch (currentLiftIndex)
         {
@@ -264,13 +309,14 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
                 break;
+
         }
-
-
-
         nextAttemptInputField.text = "";
+        return true;
     }
-        private void EndAttempts()
+
+
+    private void EndAttempts()
     {
         // IMPORTANT:
         // Run the current attempt BEFORE replacing the data
@@ -290,7 +336,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-        Debug.Log(
+        UnityEngine.Debug.Log(
             $"Attempt {CurrentAttempt} finished"
         );
 
@@ -298,12 +344,19 @@ public class CompetitionFlowManager : MonoBehaviour
 
         // Prepare next attempt AFTER results are calculated
         if (CurrentAttempt < 3)
-        {
+        {   
+            previousAttemptInputs = 
+                new List<CompetitionAttempt>(
+                    attemptInputs
+                );
+            
+            foreach (CompetitionAttempt attempt in previousAttemptInputs)
+                UnityEngine.Debug.Log(attempt.Squat);
+
             attemptInputs =
                 new List<CompetitionAttempt>(
                     nextAttemptInputs
                 );
-
 
             nextAttemptInputs.Clear();
 
@@ -318,7 +371,7 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-        Debug.Log(
+        UnityEngine.Debug.Log(
             "NEXT CURRENT ATTEMPT: "
             + CurrentAttempt
         );
@@ -328,46 +381,39 @@ public class CompetitionFlowManager : MonoBehaviour
 
 
 
-    public void SaveAttemptInputs()
+    public bool SaveOpeningAttemptInputs()
     {
         attemptInputs.Clear();
-
-
+        previousAttemptInputs.Clear();
+        nextAttemptInputs.Clear();
 
         AttemptInputRowUI[] rows =
             FindObjectsByType<AttemptInputRowUI>(
                 FindObjectsInactive.Include
             );
 
-
-
         foreach (AttemptInputRowUI row in rows)
         {
+            float squat = row.GetSquatInput();
+            float bench = row.GetBenchInput();
+            float deadlift = row.GetDeadliftInput();
+
+            if (!LiftRules.IsLegalAttempt(squat, null, LiftType.Squat) ||
+                !LiftRules.IsLegalAttempt(bench, null, LiftType.Bench) ||
+                !LiftRules.IsLegalAttempt(deadlift, null, LiftType.Deadlift))
+            {
+                UnityEngine.Debug.Log("Invalid opening attempt detected.");
+                return false;
+            }
+
             CompetitionAttempt data =
                 new CompetitionAttempt();
 
+            data.Athlete = row.Athlete;
 
-
-            data.Athlete =
-                row.Athlete;
-
-
-
-            data.Squat =
-                row.GetSquatInput();
-
-
-            data.Bench =
-                row.GetBenchInput();
-
-
-            data.Deadlift =
-                row.GetDeadliftInput();
-
-
-
-            // Roll success once here.
-            // The animation and competition results will use this same value.
+            data.Squat = squat;
+            data.Bench = bench;
+            data.Deadlift = deadlift;
 
             data.SuccessSquat =
                 AttemptSuccessCalculator.RollPlayer(
@@ -377,7 +423,6 @@ public class CompetitionFlowManager : MonoBehaviour
                     CurrentAttempt
                 );
 
-
             data.SuccessBench =
                 AttemptSuccessCalculator.RollPlayer(
                     data.Athlete,
@@ -385,7 +430,6 @@ public class CompetitionFlowManager : MonoBehaviour
                     data.Bench,
                     CurrentAttempt
                 );
-
 
             data.SuccessDeadlift =
                 AttemptSuccessCalculator.RollPlayer(
@@ -395,30 +439,9 @@ public class CompetitionFlowManager : MonoBehaviour
                     CurrentAttempt
                 );
 
-
-
-            attemptInputs.Add(
-                data
-            );
+            attemptInputs.Add(data);
         }
 
-
-
-        Debug.Log(
-            "Saved attempt inputs: "
-            + attemptInputs.Count
-        );
-
-
-
-        foreach (CompetitionAttempt attempt in attemptInputs)
-        {
-            Debug.Log(
-                $"{attempt.Athlete.Name} | " +
-                $"Squat: {attempt.Squat} ({attempt.SuccessSquat}) | " +
-                $"Bench: {attempt.Bench} ({attempt.SuccessBench}) | " +
-                $"Deadlift: {attempt.Deadlift} ({attempt.SuccessDeadlift})"
-            );
-        }
+        return true;
     }
 }

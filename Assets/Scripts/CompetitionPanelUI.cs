@@ -103,15 +103,21 @@ public class CompetitionPanelUI : MonoBehaviour
 
     public void OpenCompetitionAnimationPanel(bool firstRound)
     {
+        bool isLegalAttempt = false;
+
         if (firstRound)
         {
-            competitionFlowManager.SaveAttemptInputs();
+            isLegalAttempt = competitionFlowManager.SaveOpeningAttemptInputs();
         }
 
-        competitionAnimationPanel.SetActive(true);
-        competitionAnimationGrid.SetActive(true);
-        firstAttemptPanel.SetActive(false);
-        mainPanel.SetActive(false);
+        if (isLegalAttempt)
+        {
+            competitionAnimationPanel.SetActive(true);
+            competitionAnimationGrid.SetActive(true);
+            firstAttemptPanel.SetActive(false);
+            mainPanel.SetActive(false);
+            competitionFlowManager.StartAnimation();
+        }
     }
 
 
