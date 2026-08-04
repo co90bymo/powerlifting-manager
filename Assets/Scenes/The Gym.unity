@@ -18327,6 +18327,7 @@ GameObject:
   - component: {fileID: 644084454}
   - component: {fileID: 644084453}
   - component: {fileID: 644084452}
+  - component: {fileID: 644084455}
   m_Layer: 5
   m_Name: Scroll View
   m_TagString: Untagged
@@ -18424,6 +18425,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 644084450}
   m_CullTransparentMesh: 1
+--- !u!114 &644084455
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 644084450}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f28f6cbb0d8c104e9168f5b0d928e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplyThemeToScrollView
+  backgroundImage: {fileID: 644084453}
+  layout: {fileID: 1261328473}
 --- !u!1 &646998042
 GameObject:
   m_ObjectHideFlags: 0
@@ -24599,6 +24614,7 @@ GameObject:
   - component: {fileID: 776151838}
   - component: {fileID: 776151837}
   - component: {fileID: 776151836}
+  - component: {fileID: 776151840}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -24692,6 +24708,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &776151840
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 776151835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eaf08c72b6893d58c77949444c6cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplyFontTheme
 --- !u!1 &781777801
 GameObject:
   m_ObjectHideFlags: 0
@@ -47641,6 +47669,7 @@ GameObject:
   - component: {fileID: 1780365338}
   - component: {fileID: 1780365337}
   - component: {fileID: 1780365336}
+  - component: {fileID: 1780365339}
   m_Layer: 5
   m_Name: Scroll View Template 1
   m_TagString: Untagged
@@ -47738,6 +47767,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1780365334}
   m_CullTransparentMesh: 1
+--- !u!114 &1780365339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1780365334}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f28f6cbb0d8c104e9168f5b0d928e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplyThemeToScrollView
+  backgroundImage: {fileID: 1780365337}
+  layout: {fileID: 1948817197}
 --- !u!1 &1782273553
 GameObject:
   m_ObjectHideFlags: 0
@@ -58555,6 +58598,7 @@ GameObject:
   - component: {fileID: 5664379068178337925}
   - component: {fileID: 706711277182610427}
   - component: {fileID: 8198539640673869829}
+  - component: {fileID: 9117950749162051434}
   m_Layer: 5
   m_Name: Scroll View Template
   m_TagString: Untagged
@@ -61883,6 +61927,20 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: -200, y: -200}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &9117950749162051434
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1549657624187320491}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f28f6cbb0d8c104e9168f5b0d928e27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ApplyThemeToScrollView
+  backgroundImage: {fileID: 706711277182610427}
+  layout: {fileID: 2428255882604378354}
 --- !u!222 &9198998927493042569
 CanvasRenderer:
   m_ObjectHideFlags: 0

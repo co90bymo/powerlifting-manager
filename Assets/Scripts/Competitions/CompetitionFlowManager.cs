@@ -150,8 +150,12 @@ public class CompetitionFlowManager : MonoBehaviour
 
     public void ConfirmAnimation()
     {
-        bool saved = SaveNextAttemptInput();
+        bool saved = true;
 
+        if (CurrentAttempt < 3)
+        {
+            saved = SaveNextAttemptInput();
+        }
 
         if (!saved)
         {

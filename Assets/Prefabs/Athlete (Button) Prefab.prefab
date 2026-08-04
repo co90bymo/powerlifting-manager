@@ -150,6 +150,7 @@ GameObject:
   - component: {fileID: 8537717926934802280}
   - component: {fileID: 739246331746768020}
   - component: {fileID: 3109163614637152374}
+  - component: {fileID: -6198965337048413965}
   m_Layer: 5
   m_Name: Athlete (Button) Prefab
   m_TagString: Untagged
@@ -284,3 +285,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AthleteButton
   buttonText: {fileID: 1737004093492827327}
+--- !u!114 &-6198965337048413965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7218616314125509604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77eaf08c72b6893d58c77949444c6cf0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UIThemeApplier

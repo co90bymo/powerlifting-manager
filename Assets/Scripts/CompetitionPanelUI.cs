@@ -67,11 +67,12 @@ public class CompetitionPanelUI : MonoBehaviour
     {
         if (competitionFlowManager.CurrentAttempt > 3)
         {
-            summaryPanel.SetActive(true);
             resultsViewHolderPanel.SetActive(false);
+            summaryPanel.SetActive(true);
         }
         else
         {
+            mainPanel.SetActive(false);
             OpenCompetitionAnimationPanel(false);
             competitionFlowManager.StartAnimation();
         }

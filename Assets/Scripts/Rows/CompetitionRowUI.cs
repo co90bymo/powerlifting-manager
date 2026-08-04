@@ -349,21 +349,26 @@ public class CompetitionRowUI : AthleteRowBase
         }
 
 
-
         if (place == 1)
         {
-            nameText.color =
-                goldColor;
+            SetTextColor(
+                nameText,
+                goldColor
+            );
         }
         else if (place == 2)
         {
-            nameText.color =
-                silverColor;
+            SetTextColor(
+                nameText,
+                silverColor
+            );
         }
         else if (place == 3)
         {
-            nameText.color =
-                bronzeColor;
+            SetTextColor(
+                nameText,
+                bronzeColor
+            );
         }
     }
 }
